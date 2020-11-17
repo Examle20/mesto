@@ -1,4 +1,5 @@
 @import url(../vendor/normalize.css);
+@import url(../fonts/Inter\ Web/inter.css);
 /*Блок page*/
 @import url(../blocks/page/page.css);
 /*Блок header*/
@@ -8,3 +9,14 @@
 /*Блок profile*/
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__photo/profile__photo.css);
+/*Блок elements*/
+@import url(../blocks/elements/elements.css);
+@import url(../blocks/elements/__list/elements__list.css);
+@import url(../blocks/elements/__item/elements__item.css);
+@import url(../blocks/elements/__image/elements__image.css);
+@import url(../blocks/elements/__like/elements__like.css);
+@import url(../blocks/elements/__title/elements__title.css);
+@import url(../blocks/elements/__group/elements__group.css);
+/*Блок footer*/
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
