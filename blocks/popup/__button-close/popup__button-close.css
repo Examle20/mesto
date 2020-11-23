@@ -9,6 +9,12 @@
   position: absolute;
   right: -35px;
   top: -35px;
-
   padding: 0;
+}
+
+.popup__button-close:focus {
+  outline: none;
+}
+.popup__button-close:hover {
+  opacity: 0.6;
 }
