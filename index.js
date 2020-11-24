@@ -8,6 +8,8 @@ const inputName = popup.querySelector('.popup__form-input_field_name');
 const inputAbout = popup.querySelector('.popup__form-input_field_about');
 const saveButton = popup.querySelector('.popup__button-save');
 const formEdit = popup.querySelector('.popup__form');
+const elements = document.querySelector('.elements');
+const likeButtons = elements.querySelectorAll('.elements__like');
 
 profileEditButton.addEventListener('click', function () {
   popup.classList.toggle('popup__visible');
@@ -26,3 +28,13 @@ function formSubmitHandler (event) {
 }
 
 formEdit.addEventListener('submit', formSubmitHandler);
+
+likeButtons.forEach(function(el) {
+  el.addEventListener('click', function() {
+    el.classList.toggle('elements__like_status_active');
+  });
+});
+
+
+
+console.log(likeButtons);

@@ -3,3 +3,8 @@
   height: 18.13px;
   margin-right: 1.3px;
 }
+
+.elements__like:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}

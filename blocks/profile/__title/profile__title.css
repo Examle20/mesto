@@ -5,4 +5,7 @@
   color: #FFFFFF;
   max-width: 294px;
   margin: 0 18px 0 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
