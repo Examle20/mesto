@@ -25,8 +25,7 @@ function formSubmitHandler (event) {
   profileTitle.textContent = inputName.value;
   profileSubtitle.textContent = inputAbout.value;
   popup.classList.toggle('popup__visible');
-}
-
+};
 formEdit.addEventListener('submit', formSubmitHandler);
 
 likeButtons.forEach(function(el) {
@@ -34,7 +33,3 @@ likeButtons.forEach(function(el) {
     el.classList.toggle('elements__like_status_active');
   });
 });
-
-
-
-console.log(likeButtons);
