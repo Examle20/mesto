@@ -1,7 +1,6 @@
 .page {
   background-color: #000000;
   min-width: 1280px;
-  min-height: 100vh;
   margin: auto;
   font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
   text-rendering: optimizeLegibility;
