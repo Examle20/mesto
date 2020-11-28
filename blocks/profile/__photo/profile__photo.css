@@ -8,8 +8,6 @@
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
   .profile__photo {
-    width: 169px;
-    height: 169px;
     margin: auto;
   }
 }

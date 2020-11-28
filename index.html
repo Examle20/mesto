@@ -11,7 +11,6 @@
 
     <header class="header">
       <div class="header__logo"></div>
-      <div class="header__line"></div>
     </header>
     <main>
 
@@ -21,11 +20,11 @@
           <div class="profile__info">
             <div class="profile__main-info">
               <h1 class="profile__title">Жак-Ив Кусто</h1>
-              <button type="button" class="profile__button-edit"></button>
+              <button type="button" class="profile__button-edit" aria-label="Редактировать"></button>
             </div>
             <p class="profile__subtitle">Исследователь океана</p>
           </div>
-          <button type="button" class="profile__button-add"></button>
+          <button type="button" class="profile__button-add" aria-label="Добавить"></button>
         </div>
       </section>
 
@@ -34,45 +33,44 @@
           <li class="elements__item">
             <img src="./images/elements/kaeachevsk.jpg" alt="Изображение природы" class="elements__image">
             <div class="elements__group">
-              <p class="elements__title">Карачаевск</p>
-              <button type="button" class="elements__like"></button>
-            </div>>
+              <h2 class="elements__title">Карачаевск</h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
           </li>
           <li class="elements__item">
             <img src="./images/elements/petropavlovsk-kamchatski-min.jpg" alt="Изображение природы" class="elements__image">
             <div class="elements__group">
-              <p class="elements__title">Петропавловск-камчатский</p>
-
-              <button type="button" class="elements__like"></button>
-            </div>>
+              <h2 class="elements__title">Петропавловск-камчатский</h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
           </li>
           <li class="elements__item">
-            <img src="./images/elements/Baikal.jpg" alt="Изображение природы" class="elements__image">
+            <img src="./images/elements/baikal.jpg" alt="Изображение природы" class="elements__image">
             <div class="elements__group">
-              <p class="elements__title">Байкал</p>
-              <button type="button" class="elements__like"></button>
-            </div>>
+              <h2 class="elements__title">Байкал</h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
           </li>
           <li class="elements__item">
-            <img src="./images/elements/Kamchatka.jpg" alt="Изображение природы" class="elements__image">
+            <img src="./images/elements/kamchatka.jpg" alt="Изображение природы" class="elements__image">
             <div class="elements__group">
-              <p class="elements__title">Камчатка</p>
-              <button type="button" class="elements__like"></button>
-            </div>>
+              <h2 class="elements__title">Камчатка</h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
           </li>
           <li class="elements__item">
-            <img src="./images/elements/Sevastopol.jpg" alt="Изображение природы" class="elements__image">
+            <img src="./images/elements/sevastopol.jpg" alt="Изображение природы" class="elements__image">
             <div class="elements__group">
-              <p class="elements__title">Севастополь</p>
-              <button type="button" class="elements__like"></button>
-            </div>>
+              <h2 class="elements__title">Севастополь</h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
           </li>
           <li class="elements__item">
-            <img src="./images/elements/park monrelo-min.jpg" alt="Изображение природы" class="elements__image">
+            <img src="./images/elements/park_monrelo-min.jpg" alt="Изображение природы" class="elements__image">
             <div class="elements__group">
-              <p class="elements__title">Парк Монрело</p>
-              <button type="button" class="elements__like"></button>
-            </div>>
+              <h2 class="elements__title">Парк Монрело</h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
           </li>
         </ul>
       </section>
@@ -85,15 +83,15 @@
   </div>
   <div class="popup">
     <div class="popup__container">
-      <button type="button" class="popup__button-close"></button>
-        <form action="" class="popup__form">
+      <button type="button" class="popup__button-close" aria-label="Закрыть"></button>
+        <form action="./scripts/index.js" class="popup__form" name="form_edit">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <input type="text" class="popup__form-input popup__form-input_field_name">
-          <input type="text" class="popup__form-input popup__form-input_field_about">
-          <button type="submit" class="popup__button-save">Сохранить</button>
+          <input type="text" class="popup__form-input popup__form-input_field_name" name="user">
+          <input type="text" class="popup__form-input popup__form-input_field_about" name="about">
+          <button type="submit" class="popup__button-save" aria-label="Сохранить">Сохранить</button>
         </form>
     </div>
   </div>
-  <script src="./index.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>

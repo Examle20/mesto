@@ -16,3 +16,9 @@
 .elements__like:focus {
   outline: none;
 }
+
+.elements__like:active {
+  background-image: url(../../../../images/elements/like-active.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
