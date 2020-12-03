@@ -30,49 +30,20 @@
 
       <section class="elements">
         <ul class="elements__list">
-          <li class="elements__item">
-            <img src="./images/elements/kaeachevsk.jpg" alt="Изображение природы" class="elements__image">
-            <div class="elements__group">
-              <h2 class="elements__title">Карачаевск</h2>
-              <button type="button" class="elements__like" aria-label="Нравится"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements/petropavlovsk-kamchatski-min.jpg" alt="Изображение природы" class="elements__image">
-            <div class="elements__group">
-              <h2 class="elements__title">Петропавловск-камчатский</h2>
-              <button type="button" class="elements__like" aria-label="Нравится"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements/baikal.jpg" alt="Изображение природы" class="elements__image">
-            <div class="elements__group">
-              <h2 class="elements__title">Байкал</h2>
-              <button type="button" class="elements__like" aria-label="Нравится"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements/kamchatka.jpg" alt="Изображение природы" class="elements__image">
-            <div class="elements__group">
-              <h2 class="elements__title">Камчатка</h2>
-              <button type="button" class="elements__like" aria-label="Нравится"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements/sevastopol.jpg" alt="Изображение природы" class="elements__image">
-            <div class="elements__group">
-              <h2 class="elements__title">Севастополь</h2>
-              <button type="button" class="elements__like" aria-label="Нравится"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements/park_monrelo-min.jpg" alt="Изображение природы" class="elements__image">
-            <div class="elements__group">
-              <h2 class="elements__title">Парк Монрело</h2>
-              <button type="button" class="elements__like" aria-label="Нравится"></button>
-            </div>
-          </li>
+
         </ul>
+
+        <template id="elements__template">
+          <li class="elements__item">
+            <img src="" alt="Изображение природы" class="elements__image">
+            <button type="button" class="elements__basket"></button>
+            <div class="elements__group">
+              <h2 class="elements__title"></h2>
+              <button type="button" class="elements__like" aria-label="Нравится"></button>
+            </div>
+          </li>
+        </template>
+
       </section>
 
     </main>
@@ -81,14 +52,25 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div class="popup">
+  <div class="popup popup_edit">
     <div class="popup__container">
-      <button type="button" class="popup__button-close" aria-label="Закрыть"></button>
+      <button type="button" class="popup__button-close popup_close-edit" aria-label="Закрыть"></button>
         <form action="./scripts/index.js" class="popup__form" name="form_edit">
           <h2 class="popup__title">Редактировать профиль</h2>
           <input type="text" class="popup__form-input popup__form-input_field_name" name="user">
           <input type="text" class="popup__form-input popup__form-input_field_about" name="about">
           <button type="submit" class="popup__button-save" aria-label="Сохранить">Сохранить</button>
+        </form>
+    </div>
+  </div>
+  <div class="popup popup_add">
+    <div class="popup__container">
+      <button type="button" class="popup__button-close popup_close-add" aria-label="Закрыть"></button>
+        <form action="./scripts/index.js" class="popup__form" name="form_addPlace">
+          <h2 class="popup__title">Новое место</h2>
+          <input type="text" class="popup__form-input popup__form-input_field_place" name="place" placeholder="Название">
+          <input type="text" class="popup__form-input popup__form-input_field_url" name="url" placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__button-save" aria-label="Сохранить">Создать</button>
         </form>
     </div>
   </div>
