@@ -55,9 +55,19 @@ function closePopupAdd() {
 function addNewPlace (placeTitle, placeUrl) {
   let elementsTemplate = elements.querySelector('#elements__template').content;
   let elementsItem = elementsTemplate.cloneNode(true);
+  let image = elementsItem.querySelector('.elements__image');
   elementsItem.querySelector('.elements__title').textContent = placeTitle;
-  elementsItem.querySelector('.elements__image').setAttribute('src', placeUrl);
-  elementsItem.querySelector('.elements__basket').addEventListener('click', function (evt) {
+  image.setAttribute('src', placeUrl);
+  image.addEventListener('click', () => {
+    console.log(placeTitle);
+    let popupImage = document.querySelector('.popup_image');
+    popupImage.classList.add('popup_visible');
+    document.querySelector('.popup__image').setAttribute('src', placeUrl);
+    document.querySelector('.popup__button-close_image').addEventListener('click', () => {
+      popupImage.classList.remove('popup_visible');
+    });
+  });
+  elementsItem.querySelector('.elements__basket').addEventListener('click',  (evt) => {
     evt.target.parentElement.remove();
   });
   elementsContainer.prepend(elementsItem);
@@ -81,6 +91,9 @@ function formSubmitAddHandler(event) {
 profileButtonAdd.addEventListener('click', openPopupAdd);
 popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
+
+
+
 // Функция для загрузки стандартных изображений
 function uploadImages() {
   const initialCards = [
