@@ -66,6 +66,7 @@ function addNewPlace (placeTitle, placeUrl) {
     document.querySelector('.popup__button-close_image').addEventListener('click', () => {
       popupImage.classList.remove('popup_visible');
     });
+    document.querySelector('.popup__image-title').textContent = placeTitle;
   });
   elementsItem.querySelector('.elements__basket').addEventListener('click',  (evt) => {
     evt.target.parentElement.remove();
