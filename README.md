@@ -11,5 +11,7 @@
 Html
 <br>
 Css
+<br>
+JavaScript
 ## Ссылка на проект gh-pages
 https://examle20.github.io/mesto/index.html
