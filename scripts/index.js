@@ -1,7 +1,7 @@
 let profile = document.querySelector('.profile');
 let popupEdit = document.querySelector('.popup_edit');
 let profileEditButton =  profile.querySelector('.profile__button-edit');
-let popupCloseButtonEdit = popupEdit.querySelector('.popup_close-edit');
+let popupCloseButtonEdit = popupEdit.querySelector('.popup_button-close_edit');
 let profileTitle = profile.querySelector('.profile__title');
 let profileSubtitle = profile.querySelector('.profile__subtitle');
 let inputName = popupEdit.querySelector('.popup__form-input_field_name');
@@ -11,7 +11,7 @@ let elements = document.querySelector('.elements');
 let likeButtons = elements.querySelectorAll('.elements__like');
 let popupAdd = document.querySelector('.popup_add');
 let profileButtonAdd = profile.querySelector('.profile__button-add');
-let popupCloseButtonAdd = popupAdd.querySelector('.popup_close-add');
+let popupCloseButtonAdd = popupAdd.querySelector('.popup__button-close_add');
 let formAdd = popupAdd.querySelector('.popup__form');
 let elementsContainer = elements.querySelector('.elements__list');
 let popupImage = document.querySelector('.popup_image');
