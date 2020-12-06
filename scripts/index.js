@@ -62,6 +62,7 @@ addNewPlace = (placeTitle, placeUrl) => {
   image.setAttribute('src', placeUrl);
   image.addEventListener('click', maximiseImage(placeTitle, placeUrl));
   elementsItem.querySelector('.elements__basket').addEventListener('click', removeElement);
+  elementsItem.querySelector('.elements__like').addEventListener('click', putLike);
   elementsContainer.prepend(elementsItem);
 };
 
@@ -95,6 +96,12 @@ formSubmitAddHandler = (event) => {
   popupAdd.querySelector('.popup__form-input_field_url').value = '';
   closePopupAdd();
 }
+
+//Поставить like
+putLike = (evt) => {
+  evt.target.classList.toggle('elements_like_active');
+}
+
 
 // Обработчики кнопок для добавления||удаления нового места
 profileButtonAdd.addEventListener('click', openPopupAdd);
