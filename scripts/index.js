@@ -14,21 +14,22 @@ let profileButtonAdd = profile.querySelector('.profile__button-add');
 let popupCloseButtonAdd = popupAdd.querySelector('.popup_close-add');
 let formAdd = popupAdd.querySelector('.popup__form');
 let elementsContainer = elements.querySelector('.elements__list');
+let popupImage = document.querySelector('.popup_image');
 
 //Отрыть popup для редактирования
-function openPopupEdit() {
+openPopupEdit = () => {
   inputName.value =  profileTitle.textContent;
   inputAbout.value = profileSubtitle.textContent;
   popupEdit.classList.add('popup_visible');
 }
 
 //закрыть popup редактирования
-function closePopupEdit() {
+closePopupEdit = () => {
   popupEdit.classList.remove('popup_visible');
 }
 
 // Сохранение отредактированных данных
-function formSubmitHandler (event) {
+formSubmitHandler = (event) => {
   event.preventDefault();
   profileTitle.textContent = inputName.value;
   profileSubtitle.textContent = inputAbout.value;
@@ -39,43 +40,53 @@ function formSubmitHandler (event) {
 profileEditButton.addEventListener('click', openPopupEdit);
 popupCloseButtonEdit.addEventListener('click', closePopupEdit);
 formEdit.addEventListener('submit', formSubmitHandler);
+
 // Работа с popup для добавления нового места
 
 //Отрыть popup для добавления нового места
-function openPopupAdd() {
+openPopupAdd = () => {
   popupAdd.classList.add('popup_visible');
 }
 
 // Закрыть popup добавления нового места
-function closePopupAdd() {
+closePopupAdd = () => {
   popupAdd.classList.remove('popup_visible');
 }
 
 // Вставка нового места в шаблон
-function addNewPlace (placeTitle, placeUrl) {
+addNewPlace = (placeTitle, placeUrl) => {
   let elementsTemplate = elements.querySelector('#elements__template').content;
   let elementsItem = elementsTemplate.cloneNode(true);
   let image = elementsItem.querySelector('.elements__image');
   elementsItem.querySelector('.elements__title').textContent = placeTitle;
   image.setAttribute('src', placeUrl);
-  image.addEventListener('click', () => {
-    console.log(placeTitle);
-    let popupImage = document.querySelector('.popup_image');
-    popupImage.classList.add('popup_visible');
-    document.querySelector('.popup__image').setAttribute('src', placeUrl);
-    document.querySelector('.popup__button-close_image').addEventListener('click', () => {
-      popupImage.classList.remove('popup_visible');
-    });
-    document.querySelector('.popup__image-title').textContent = placeTitle;
-  });
-  elementsItem.querySelector('.elements__basket').addEventListener('click',  (evt) => {
-    evt.target.parentElement.remove();
-  });
+  image.addEventListener('click', maximiseImage(placeTitle, placeUrl));
+  elementsItem.querySelector('.elements__basket').addEventListener('click', removeElement);
   elementsContainer.prepend(elementsItem);
 };
 
+// Функция увелечения изображения по нажатию
+maximiseImage = (placeTitle, placeUrl) => {
+  return () => {
+    popupImage.classList.add('popup_visible');
+    popupImage.querySelector('.popup__image').setAttribute('src', placeUrl);
+    document.querySelector('.popup__button-close_image').addEventListener('click', closeMaximiseImage);
+    document.querySelector('.popup__image-title').textContent = placeTitle;
+  }
+}
+
+// Закрыть увеличенное изображение
+closeMaximiseImage = () => {
+  popupImage.classList.remove('popup_visible');
+}
+
+// Функция удаления элемента
+removeElement = (evt) => {
+  evt.target.parentElement.remove();
+}
+
 // Кнопка добавления нового места
-function formSubmitAddHandler(event) {
+formSubmitAddHandler = (event) => {
   event.preventDefault();
   let titlePlace = popupAdd.querySelector('.popup__form-input_field_place').value;
   let urlPlace = popupAdd.querySelector('.popup__form-input_field_url').value;
@@ -85,18 +96,13 @@ function formSubmitAddHandler(event) {
   closePopupAdd();
 }
 
-// Кнопка удаления места
-
-
 // Обработчики кнопок для добавления||удаления нового места
 profileButtonAdd.addEventListener('click', openPopupAdd);
 popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
 
-
-
 // Функция для загрузки стандартных изображений
-function uploadImages() {
+uploadImages = () => {
   const initialCards = [
     {
         name: 'Архыз',
@@ -128,4 +134,3 @@ function uploadImages() {
   });
 }
 uploadImages();
-
