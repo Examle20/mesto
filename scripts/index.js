@@ -21,7 +21,7 @@ const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImageTitle = document.querySelector('.popup__image-title');
 const elementsTemplate = document.querySelector('.elements__template').content;
 
-// Карточки для начальной загрузки страницы
+
 const initialCards = [
   {
       name: 'Архыз',
@@ -53,6 +53,8 @@ openPopup = (popup) => {
   popup.classList.add('popup_visible');
 }
 
+
+
 // Закрыть popup
 closePopup = (popup) => {
   popup.classList.remove('popup_visible');
@@ -62,6 +64,7 @@ closePopup = (popup) => {
 openPopupEdit = () => {
   inputName.value =  profileTitle.textContent;
   inputAbout.value = profileSubtitle.textContent;
+  popupEdit.querySelector('.popup__button-save').classList.remove('popup__button-save_inactive');
   openPopup(popupEdit);
 }
 
@@ -87,6 +90,7 @@ formEdit.addEventListener('submit', formSubmitHandler);
 
 //Отрыть popup для добавления нового места
 openPopupAdd = () => {
+  popupAdd.querySelector('.popup__button-save').classList.add('popup__button-save_inactive');
   openPopup(popupAdd);
 }
 
@@ -158,4 +162,6 @@ uploadImages = () => {
     addNewPlace(createCard(item.name, item.link));
   });
 }
+
 uploadImages();
+
