@@ -1,4 +1,5 @@
 const profile = document.querySelector('.profile');
+const popup = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const profileEditButton =  profile.querySelector('.profile__button-edit');
 const popupCloseButtonEdit = popupEdit.querySelector('.popup__button-close_edit');
@@ -163,5 +164,16 @@ uploadImages = () => {
   });
 }
 
+// Закрыть popup через overlay
+closeViaOverlay = () => {
+  popup.forEach((item) => {
+    item.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup')){
+        closePopup(evt.target);
+      }
+    });
+  });
+}
+closeViaOverlay();
 uploadImages();
 
