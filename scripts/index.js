@@ -164,16 +164,30 @@ uploadImages = () => {
   });
 }
 
+// Отслеживание нажатия на Esc
+handlePressingEsc = (item) => {
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup(item);
+    }
+  });
+}
+
+// ОТслеживание нажатия мыши на overlay
+handlePressingMouse = (evt) => {
+  if (evt.target.classList.contains('popup')){
+    closePopup(evt.target);
+  }
+}
+
 // Закрыть popup через overlay
 closeViaOverlay = () => {
   popup.forEach((item) => {
-    item.addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('popup')){
-        closePopup(evt.target);
-      }
-    });
+    item.addEventListener('click', handlePressingMouse);
+    handlePressingEsc(item);
   });
 }
+
 closeViaOverlay();
 uploadImages();
 
