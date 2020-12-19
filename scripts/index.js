@@ -52,6 +52,7 @@ const initialCards = [
 //Открыть popup
 openPopup = (popup) => {
   popup.classList.add('popup_visible');
+  closeViaOverlay();
 }
 
 
@@ -173,7 +174,7 @@ handlePressingEsc = (item) => {
   });
 }
 
-// ОТслеживание нажатия мыши на overlay
+// Отслеживание нажатия мыши на overlay
 handlePressingMouse = (evt) => {
   if (evt.target.classList.contains('popup')){
     closePopup(evt.target);
@@ -188,6 +189,6 @@ closeViaOverlay = () => {
   });
 }
 
-closeViaOverlay();
+
 uploadImages();
 
