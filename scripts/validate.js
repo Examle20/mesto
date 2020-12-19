@@ -24,10 +24,12 @@ const hasInvalidInput = (inputList) => {
 }
 
 // Включение || отключение кнопки взависимости от проверки на валидацию нескольких полей
-const toggleButtonState = (inputList, buttonElement, config) => {
+const toggleButtonState = (inputList, buttonElement, config, formElement) => {
   if(hasInvalidInput(inputList)){
+    formElement.addEventListener('keydown', handleEnterPress);
     buttonElement.classList.add(config.inactiveButtonClass);
   } else {
+    formElement.removeEventListener('keydown', handleEnterPress);
     buttonElement.classList.remove(config.inactiveButtonClass);
   }
 }
@@ -45,14 +47,21 @@ const isValid = (formElement, inputElement, config) => {
 const setEventListeners = (formElement, config) => {
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
-  toggleButtonState(inputList, buttonElement, config);
+  toggleButtonState(inputList, buttonElement, config, formElement);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       isValid(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElement, config);
+      toggleButtonState(inputList, buttonElement, config, formElement);
     });
   });
 };
+
+// Отключение Enter, если данные не введены во все поля
+const handleEnterPress = (evt) => {
+  if(evt.key ==='Enter') {
+    evt.preventDefault();
+  }
+}
 
 // Валидация инпутов
 const enableValidation = (config) => {

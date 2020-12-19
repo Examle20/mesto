@@ -49,17 +49,29 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+// Убрать ошибки после закрытия форм
+const hideAllErrors = () => {
+  const errorList = document.querySelectorAll('.popup__form-error');
+  const inputList = document.querySelectorAll('.popup__form-input');
+  inputList.forEach((item) => {
+    item.classList.remove('popup__type-error');
+  });
+  errorList.forEach((item) => {
+    item.classList.remove('popup__form-error_active');
+  });
+}
+
 //Открыть popup
 openPopup = (popup) => {
   popup.classList.add('popup_visible');
   closeViaOverlay();
 }
 
-
-
 // Закрыть popup
 closePopup = (popup) => {
+  hideAllErrors();
   popup.classList.remove('popup_visible');
+  formAdd.reset();
 }
 
 //Отрыть popup для редактирования
@@ -188,7 +200,6 @@ closeViaOverlay = () => {
     handlePressingEsc(item);
   });
 }
-
 
 uploadImages();
 
