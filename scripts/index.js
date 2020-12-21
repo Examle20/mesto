@@ -21,8 +21,8 @@ const fieldtitleUrl = popupAdd.querySelector('.popup__form-input_field_url');
 const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImageTitle = document.querySelector('.popup__image-title');
 const elementsTemplate = document.querySelector('.elements__template').content;
-
-
+const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
+const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
 const initialCards = [
   {
       name: 'Архыз',
@@ -49,6 +49,30 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//Открыть popup
+const openPopup = (popup) => {
+  popup.classList.add('popup_visible');
+  closeViaOverlay(popup);
+}
+
+// Закрыть popup
+const closePopup = (popup) => {
+  hideAllErrors();
+  removeListener(popup);
+  popup.classList.remove('popup_visible');
+}
+
+//Отрыть popup для редактирования
+const openPopupEdit = () => {
+  inputName.value =  profileTitle.textContent;
+  inputAbout.value = profileSubtitle.textContent;
+  buttonSaveUser.classList.remove('popup__button-save_inactive');
+  buttonSaveUser.disabled = false;
+  openPopup(popupEdit);
+
+}
+
 // Убрать ошибки после закрытия форм
 const hideAllErrors = () => {
   const errorList = document.querySelectorAll('.popup__form-error');
@@ -61,64 +85,60 @@ const hideAllErrors = () => {
   });
 }
 
-//Открыть popup
-openPopup = (popup) => {
-  popup.classList.add('popup_visible');
-  closeViaOverlay();
+// Отслеживание нажатия на Esc
+const handlePressingEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_visible'));
+  }
 }
 
-// Закрыть popup
-closePopup = (popup) => {
-  hideAllErrors();
-  popup.classList.remove('popup_visible');
-  formAdd.reset();
+// Отслеживание нажатия мыши на overlay
+const handlePressingMouse = (evt) => {
+  if (evt.target.classList.contains('popup')){
+    closePopup(evt.target);
+  }
 }
 
-//Отрыть popup для редактирования
-openPopupEdit = () => {
-  inputName.value =  profileTitle.textContent;
-  inputAbout.value = profileSubtitle.textContent;
-  popupEdit.querySelector('.popup__button-save').classList.remove('popup__button-save_inactive');
-  openPopup(popupEdit);
+// Удалить слушатели события после закрытия popup
+const removeListener = (popup) => {
+  popup.removeEventListener('click', handlePressingMouse);
+  document.removeEventListener('keydown', handlePressingEsc);
 }
 
-//закрыть popup редактирования
-closePopupEdit = () => {
-  closePopup(popupEdit);
+// Закрыть popup через overlay
+const closeViaOverlay = (popup) => {
+  popup.addEventListener('click', handlePressingMouse);
+  document.addEventListener('keydown', handlePressingEsc);
 }
 
 // Сохранение отредактированных данных
-formSubmitHandler = (event) => {
+const formSubmitHandler = (event) => {
   event.preventDefault();
   profileTitle.textContent = inputName.value;
   profileSubtitle.textContent = inputAbout.value;
-  closePopupEdit();
+  closePopup(popupEdit);
 };
-
-// Работа с popup для редактирования
-profileEditButton.addEventListener('click', openPopupEdit);
-popupCloseButtonEdit.addEventListener('click', closePopupEdit);
-formEdit.addEventListener('submit', formSubmitHandler);
 
 // Работа с popup для добавления нового места
 
 //Отрыть popup для добавления нового места
-openPopupAdd = () => {
-  popupAdd.querySelector('.popup__button-save').classList.add('popup__button-save_inactive');
+const openPopupAdd = () => {
+  formAdd.reset();
   openPopup(popupAdd);
 }
 
 // Закрыть popup добавления нового места
-closePopupAdd = () => {
+const closePopupAdd = () => {
   closePopup(popupAdd);
 }
 
 // Создание новой карточки
-createCard = (placeTitle, placeUrl) => {
+const createCard = (placeTitle, placeUrl) => {
   const elementsItem = elementsTemplate.cloneNode(true);
   const image = elementsItem.querySelector('.elements__image');
   elementsItem.querySelector('.elements__title').textContent = placeTitle;
   image.setAttribute('src', placeUrl);
+  image.setAttribute('alt', 'Что-то с ссылкой на изображение');
   image.addEventListener('click', maximiseImage(placeTitle, placeUrl));
   elementsItem.querySelector('.elements__basket').addEventListener('click', removeElement);
   elementsItem.querySelector('.elements__like').addEventListener('click', putLike);
@@ -127,43 +147,55 @@ createCard = (placeTitle, placeUrl) => {
 };
 
 // Добавление карточки в контейнер
-addNewPlace = (elItem) => {
+const addNewPlace = (elItem) => {
   elementsContainer.prepend(elItem);
 }
 
 // Функция увелечения изображения по нажатию
-maximiseImage = (placeTitle, placeUrl) => {
+const maximiseImage = (placeTitle, placeUrl) => {
   return () => {
     openPopup(popupImage);
     popupImage.querySelector('.popup__image').setAttribute('src', placeUrl);
+    popupImage.setAttribute('alt', 'Что-то с ссылкой на изображение');
     popupImageClose.addEventListener('click', closeMaximiseImage);
     popupImageTitle.textContent = placeTitle;
   }
 }
 
 // Закрыть увеличенное изображение
-closeMaximiseImage = () => {
+const closeMaximiseImage = () => {
   closePopup(popupImage);
 }
 
+//закрыть popup редактирования(callback на 192 строке)
+closePopupEdit = () => {
+  closePopup(popupEdit);
+}
+
 // Функция удаления элемента
-removeElement = (evt) => {
+const removeElement = (evt) => {
   evt.target.closest('.elements__item').remove();
 }
 
 // Кнопка добавления нового места
-formSubmitAddHandler = (event) => {
+const formSubmitAddHandler = (event) => {
   event.preventDefault();
   addNewPlace(createCard(fieldTitlePlace.value, fieldtitleUrl.value));
-  popupAdd.querySelector('.popup__form-input_field_place').value = '';
-  popupAdd.querySelector('.popup__form-input_field_url').value = '';
+  formAdd.reset();
+  buttonSavePlace.classList.add('popup__button-save_inactive');
+  buttonSavePlace.disabled = true;
   closePopupAdd();
 }
 
 //Поставить like
-putLike = (evt) => {
+const putLike = (evt) => {
   evt.target.classList.toggle('elements_like_active');
 }
+
+// Работа с popup для редактирования
+profileEditButton.addEventListener('click', openPopupEdit);
+popupCloseButtonEdit.addEventListener('click', closePopupEdit);
+formEdit.addEventListener('submit', formSubmitHandler);
 
 // Обработчики кнопок для добавления||удаления нового места
 profileButtonAdd.addEventListener('click', openPopupAdd);
@@ -171,33 +203,9 @@ popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
 
 // Функция для загрузки стандартных изображений
-uploadImages = () => {
+const uploadImages = () => {
   initialCards.forEach((item) => {
     addNewPlace(createCard(item.name, item.link));
-  });
-}
-
-// Отслеживание нажатия на Esc
-handlePressingEsc = (item) => {
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(item);
-    }
-  });
-}
-
-// Отслеживание нажатия мыши на overlay
-handlePressingMouse = (evt) => {
-  if (evt.target.classList.contains('popup')){
-    closePopup(evt.target);
-  }
-}
-
-// Закрыть popup через overlay
-closeViaOverlay = () => {
-  popup.forEach((item) => {
-    item.addEventListener('click', handlePressingMouse);
-    handlePressingEsc(item);
   });
 }
 

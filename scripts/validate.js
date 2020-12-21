@@ -1,5 +1,3 @@
-
-
 // Показать текст ошибки
 const showInputError = (formElement, inputElement, errorMessage, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -26,11 +24,11 @@ const hasInvalidInput = (inputList) => {
 // Включение || отключение кнопки взависимости от проверки на валидацию нескольких полей
 const toggleButtonState = (inputList, buttonElement, config, formElement) => {
   if(hasInvalidInput(inputList)){
-    formElement.addEventListener('keydown', handleEnterPress);
     buttonElement.classList.add(config.inactiveButtonClass);
+    buttonElement.disabled = true;
   } else {
-    formElement.removeEventListener('keydown', handleEnterPress);
     buttonElement.classList.remove(config.inactiveButtonClass);
+    buttonElement.disabled = false;
   }
 }
 
@@ -55,13 +53,6 @@ const setEventListeners = (formElement, config) => {
     });
   });
 };
-
-// Отключение Enter, если данные не введены во все поля
-const handleEnterPress = (evt) => {
-  if(evt.key ==='Enter') {
-    evt.preventDefault();
-  }
-}
 
 // Валидация инпутов
 const enableValidation = (config) => {
