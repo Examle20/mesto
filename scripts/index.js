@@ -1,3 +1,4 @@
+import { Card } from './Card.js';
 const profile = document.querySelector('.profile');
 const popup = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
@@ -23,32 +24,7 @@ const popupImageTitle = document.querySelector('.popup__image-title');
 const elementsTemplate = document.querySelector('.elements__template').content;
 const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+
 
 //Открыть popup
 const openPopup = (popup) => {
@@ -62,6 +38,8 @@ const closePopup = (popup) => {
   removeListener(popup);
   popup.classList.remove('popup_visible');
 }
+
+export { openPopup, closePopup };
 
 //Отрыть popup для редактирования
 const openPopupEdit = () => {
@@ -134,22 +112,22 @@ const closePopupAdd = () => {
 
 // Создание новой карточки
 const createCard = (placeTitle, placeUrl) => {
-  const elementsItem = elementsTemplate.cloneNode(true);
-  const image = elementsItem.querySelector('.elements__image');
-  elementsItem.querySelector('.elements__title').textContent = placeTitle;
-  image.setAttribute('src', placeUrl);
-  image.setAttribute('alt', 'Что-то с ссылкой на изображение');
+  //const elementsItem = elementsTemplate.cloneNode(true);
+  //const image = elementsItem.querySelector('.elements__image');
+  //elementsItem.querySelector('.elements__title').textContent = placeTitle;
+  //image.setAttribute('src', placeUrl);
+  //image.setAttribute('alt', 'Что-то с ссылкой на изображение');
   image.addEventListener('click', maximiseImage(placeTitle, placeUrl));
-  elementsItem.querySelector('.elements__basket').addEventListener('click', removeElement);
-  elementsItem.querySelector('.elements__like').addEventListener('click', putLike);
-  console.log(elementsItem);
-  return elementsItem;
+  //elementsItem.querySelector('.elements__basket').addEventListener('click', removeElement);
+  //elementsItem.querySelector('.elements__like').addEventListener('click', putLike);
+  //console.log(elementsItem);
+  //return elementsItem;
 };
 
 // Добавление карточки в контейнер
-const addNewPlace = (elItem) => {
-  elementsContainer.prepend(elItem);
-}
+//const addNewPlace = (elItem) => {
+ // elementsContainer.prepend(elItem);
+//}
 
 // Функция увелечения изображения по нажатию
 const maximiseImage = (placeTitle, placeUrl) => {
@@ -168,19 +146,20 @@ const closeMaximiseImage = () => {
 }
 
 //закрыть popup редактирования(callback на 192 строке)
-closePopupEdit = () => {
+const closePopupEdit = () => {
   closePopup(popupEdit);
 }
 
 // Функция удаления элемента
-const removeElement = (evt) => {
-  evt.target.closest('.elements__item').remove();
-}
+//const removeElement = (evt) => {
+ // evt.target.closest('.elements__item').remove();
+//}
 
 // Кнопка добавления нового места
 const formSubmitAddHandler = (event) => {
   event.preventDefault();
-  addNewPlace(createCard(fieldTitlePlace.value, fieldtitleUrl.value));
+  const card = new Card({name: fieldTitlePlace.value, link: fieldtitleUrl.value}, '.elements__template');
+  card.addCard();
   formAdd.reset();
   buttonSavePlace.classList.add('popup__button-save_inactive');
   buttonSavePlace.disabled = true;
@@ -188,9 +167,9 @@ const formSubmitAddHandler = (event) => {
 }
 
 //Поставить like
-const putLike = (evt) => {
-  evt.target.classList.toggle('elements_like_active');
-}
+//const putLike = (evt) => {
+ // evt.target.classList.toggle('elements_like_active');
+//}
 
 // Работа с popup для редактирования
 profileEditButton.addEventListener('click', openPopupEdit);
@@ -203,11 +182,11 @@ popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
 
 // Функция для загрузки стандартных изображений
-const uploadImages = () => {
-  initialCards.forEach((item) => {
-    addNewPlace(createCard(item.name, item.link));
-  });
-}
+//const uploadImages = () => {
+ // initialCards.forEach((item) => {
+ //   addNewPlace(createCard(item.name, item.link));
+ // });
+//}
 
-uploadImages();
+//uploadImages();
 
