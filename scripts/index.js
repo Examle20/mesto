@@ -110,50 +110,10 @@ const closePopupAdd = () => {
   closePopup(popupAdd);
 }
 
-// Создание новой карточки
-const createCard = (placeTitle, placeUrl) => {
-  //const elementsItem = elementsTemplate.cloneNode(true);
-  //const image = elementsItem.querySelector('.elements__image');
-  //elementsItem.querySelector('.elements__title').textContent = placeTitle;
-  //image.setAttribute('src', placeUrl);
-  //image.setAttribute('alt', 'Что-то с ссылкой на изображение');
-  image.addEventListener('click', maximiseImage(placeTitle, placeUrl));
-  //elementsItem.querySelector('.elements__basket').addEventListener('click', removeElement);
-  //elementsItem.querySelector('.elements__like').addEventListener('click', putLike);
-  //console.log(elementsItem);
-  //return elementsItem;
-};
-
-// Добавление карточки в контейнер
-//const addNewPlace = (elItem) => {
- // elementsContainer.prepend(elItem);
-//}
-
-// Функция увелечения изображения по нажатию
-const maximiseImage = (placeTitle, placeUrl) => {
-  return () => {
-    openPopup(popupImage);
-    popupImage.querySelector('.popup__image').setAttribute('src', placeUrl);
-    popupImage.setAttribute('alt', 'Что-то с ссылкой на изображение');
-    popupImageClose.addEventListener('click', closeMaximiseImage);
-    popupImageTitle.textContent = placeTitle;
-  }
-}
-
-// Закрыть увеличенное изображение
-const closeMaximiseImage = () => {
-  closePopup(popupImage);
-}
-
 //закрыть popup редактирования(callback на 192 строке)
 const closePopupEdit = () => {
   closePopup(popupEdit);
 }
-
-// Функция удаления элемента
-//const removeElement = (evt) => {
- // evt.target.closest('.elements__item').remove();
-//}
 
 // Кнопка добавления нового места
 const formSubmitAddHandler = (event) => {
@@ -166,11 +126,6 @@ const formSubmitAddHandler = (event) => {
   closePopupAdd();
 }
 
-//Поставить like
-//const putLike = (evt) => {
- // evt.target.classList.toggle('elements_like_active');
-//}
-
 // Работа с popup для редактирования
 profileEditButton.addEventListener('click', openPopupEdit);
 popupCloseButtonEdit.addEventListener('click', closePopupEdit);
@@ -181,12 +136,4 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
 
-// Функция для загрузки стандартных изображений
-//const uploadImages = () => {
- // initialCards.forEach((item) => {
- //   addNewPlace(createCard(item.name, item.link));
- // });
-//}
-
-//uploadImages();
 
