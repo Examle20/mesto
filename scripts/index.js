@@ -1,4 +1,5 @@
 import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js'
 const profile = document.querySelector('.profile');
 const popup = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
@@ -25,6 +26,14 @@ const elementsTemplate = document.querySelector('.elements__template').content;
 const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
 
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__form-input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__type-error',
+  errorClass: 'popup__form-error_active'
+}
 
 //Открыть popup
 const openPopup = (popup) => {
@@ -47,8 +56,9 @@ const openPopupEdit = () => {
   inputAbout.value = profileSubtitle.textContent;
   buttonSaveUser.classList.remove('popup__button-save_inactive');
   buttonSaveUser.disabled = false;
+  const formValidator = new FormValidator(validationConfig, popupEdit);
+  formValidator.enableValidation();
   openPopup(popupEdit);
-
 }
 
 // Убрать ошибки после закрытия форм
@@ -102,6 +112,8 @@ const formSubmitHandler = (event) => {
 //Отрыть popup для добавления нового места
 const openPopupAdd = () => {
   formAdd.reset();
+  const formValidator = new FormValidator(validationConfig, popupAdd);
+  formValidator.enableValidation();
   openPopup(popupAdd);
 }
 

@@ -1,54 +1,54 @@
 // Показать текст ошибки
-const showInputError = (formElement, inputElement, errorMessage, config) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(config.inputErrorClass);// добавили красную линию инпуту
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(config.errorClass);
-};
+////const showInputError = (formElement, inputElement, errorMessage, config) => {
+ //// const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+ //// inputElement.classList.add(config.inputErrorClass);// добавили красную линию инпуту
+ //// errorElement.textContent = errorMessage;
+ //// errorElement.classList.add(config.errorClass);
+////};
 
 // Убрать текст ошибки
-const hideInputError = (formElement, inputElement, config) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(config.inputErrorClass);
-  errorElement.classList.remove(config.errorClass);
-  errorElement.textContent = '';
-};
+////const hideInputError = (formElement, inputElement, config) => {
+////  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+ //// inputElement.classList.remove(config.inputErrorClass);
+ //// errorElement.classList.remove(config.errorClass);
+ //// errorElement.textContent = '';
+////};
 
 // Проверка на валидность нескольких инпутов формы одновременно
-const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  })
-}
+//const hasInvalidInput = (inputList) => {
+  //return inputList.some((inputElement) => {
+  //  return !inputElement.validity.valid;
+  //})
+//}//
 
 // Включение || отключение кнопки взависимости от проверки на валидацию нескольких полей
-const toggleButtonState = (inputList, buttonElement, config, formElement) => {
-  if(hasInvalidInput(inputList)){
-    buttonElement.classList.add(config.inactiveButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.remove(config.inactiveButtonClass);
-    buttonElement.disabled = false;
-  }
-}
+//const toggleButtonState = (inputList, buttonElement, config, formElement) => {
+  //if(hasInvalidInput(inputList)){
+    //buttonElement.classList.add(config.inactiveButtonClass);
+    //buttonElement.disabled = true;
+  //} else {
+  //  buttonElement.classList.remove(config.inactiveButtonClass);
+   // buttonElement.disabled = false;
+  //}
+//}
 
 // Проверка валидности введенных данных
-const isValid = (formElement, inputElement, config) => {
-  if (!inputElement.validity.valid){
-    showInputError(formElement, inputElement, inputElement.validationMessage, config);
-  } else {
-    hideInputError(formElement, inputElement, config);
-  }
-}
+//const isValid = //(formElement, inputElement, config) => {
+  //if (!inputElement.validity.valid){
+  //  showInputError(formElement, inputElement, inputElement.validationMessage, config);
+  //} else {
+  //  hideInputError(formElement, inputElement, config);
+  //}
+//}
 
 // Получение элементов формы и их проверка
-const setEventListeners = (formElement, config) => {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
-  toggleButtonState(inputList, buttonElement, config, formElement);
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement, config);
+//const setEventListeners = (formElement, config) => {
+  //const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+ // const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  //toggleButtonState(inputList, buttonElement, config, formElement);
+  //inputList.forEach((inputElement) => {
+    //inputElement.addEventListener('input', () => {
+      //isValid(formElement, inputElement, config);
       toggleButtonState(inputList, buttonElement, config, formElement);
     });
   });
