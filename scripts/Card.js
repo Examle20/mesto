@@ -1,32 +1,7 @@
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+import { openPopup, closePopup } from './index.js';
+
 const popupImage = document.querySelector('.popup_image');
 const popupImageClose = document.querySelector('.popup__button-close_image');
-import { openPopup, closePopup } from './index.js';
 
 export class Card {
   constructor(data, cardSelector){
@@ -81,17 +56,7 @@ export class Card {
     return this._elementsItem;
   }
 
-
   addCard() {
     document.querySelector('.elements__list').prepend(this._createCard());
   }
 }
-
-const uploadImages = () => {
-  initialCards.forEach((item) => {
-    const card = new Card(item, '.elements__template');
-    card.addCard();
-  })
-}
-
-uploadImages();

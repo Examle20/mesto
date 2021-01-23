@@ -1,7 +1,9 @@
 import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js'
+import { FormValidator } from './FormValidator.js';
+import { validationConfig } from './validationConfig.js';
+import { initialCards } from './initialCards.js';
+
 const profile = document.querySelector('.profile');
-const popup = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const profileEditButton =  profile.querySelector('.profile__button-edit');
 const popupCloseButtonEdit = popupEdit.querySelector('.popup__button-close_edit');
@@ -10,30 +12,14 @@ const profileSubtitle = profile.querySelector('.profile__subtitle');
 const inputName = popupEdit.querySelector('.popup__form-input_field_name');
 const inputAbout = popupEdit.querySelector('.popup__form-input_field_about');
 const formEdit = popupEdit.querySelector('.popup__form');
-const elements = document.querySelector('.elements');
-const likeButtons = elements.querySelectorAll('.elements__like');
 const popupAdd = document.querySelector('.popup_add');
 const profileButtonAdd = profile.querySelector('.profile__button-add');
 const popupCloseButtonAdd = popupAdd.querySelector('.popup__button-close_add');
 const formAdd = popupAdd.querySelector('.popup__form');
-const elementsContainer = elements.querySelector('.elements__list');
-const popupImage = document.querySelector('.popup_image');
 const fieldTitlePlace = popupAdd.querySelector('.popup__form-input_field_place');
 const fieldtitleUrl = popupAdd.querySelector('.popup__form-input_field_url');
-const popupImageClose = document.querySelector('.popup__button-close_image');
-const popupImageTitle = document.querySelector('.popup__image-title');
-const elementsTemplate = document.querySelector('.elements__template').content;
 const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
-
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__form-input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_inactive',
-  inputErrorClass: 'popup__type-error',
-  errorClass: 'popup__form-error_active'
-}
 
 //Открыть popup
 const openPopup = (popup) => {
@@ -148,4 +134,12 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
 
+// Отображение стандартных карточек
+const uploadImages = () => {
+  initialCards.forEach((item) => {
+    const card = new Card(item, '.elements__template');
+    card.addCard();
+  })
+}
 
+uploadImages();
