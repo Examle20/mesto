@@ -22,13 +22,10 @@ const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
 const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImage = document.querySelector('.popup_image');
+const popusForValidation = document.querySelectorAll('.popup_validation');
 
 //Открыть popup
 const openPopup = (popup) => {
-  if (!popup.classList.contains('popup_image')) {
-    const formValidator = new FormValidator(validationConfig, popup);
-    formValidator.enableValidation();
-  }
   popup.classList.add('popup_visible');
   setListenerOverlay(popup);
 }
@@ -150,4 +147,13 @@ const uploadImages = () => {
   })
 }
 
+// Включение валидации форм
+const activeValidation = () => {
+  popusForValidation.forEach((popupElement) => {
+    const formValidator = new FormValidator(validationConfig, popupElement);
+    formValidator.enableValidation();
+  });
+}
+
 uploadImages();
+activeValidation();

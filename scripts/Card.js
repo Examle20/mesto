@@ -17,12 +17,13 @@ export class Card {
     return document
     .querySelector(this._cardSelector)
     .content
+    .querySelector('.elements__item')
     .cloneNode(true);
   }
 
   // Удалить карточку
   _removeCard() {
-    this._image.closest('.elements__item').remove();
+    this._elementsItem.remove();
     this._elementsItem = null;
   }
 
