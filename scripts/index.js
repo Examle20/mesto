@@ -20,21 +20,31 @@ const fieldTitlePlace = popupAdd.querySelector('.popup__form-input_field_place')
 const fieldtitleUrl = popupAdd.querySelector('.popup__form-input_field_url');
 const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
+const popupImageClose = document.querySelector('.popup__button-close_image');
+const popupImage = document.querySelector('.popup_image');
 
 //Открыть popup
 const openPopup = (popup) => {
+  if (!popup.classList.contains('popup_image')) {
+    const formValidator = new FormValidator(validationConfig, popup);
+    formValidator.enableValidation();
+  }
   popup.classList.add('popup_visible');
-  closeViaOverlay(popup);
+  setListenerOverlay(popup);
 }
 
 // Закрыть popup
 const closePopup = (popup) => {
-  hideAllErrors();
+  if (!popup.classList.contains('popup_image')) hideAllErrors(popup);
   removeListener(popup);
   popup.classList.remove('popup_visible');
 }
 
 export { openPopup, closePopup };
+
+const closeIncImage = () => {
+  closePopup(popupImage);
+}
 
 //Отрыть popup для редактирования
 const openPopupEdit = () => {
@@ -42,15 +52,13 @@ const openPopupEdit = () => {
   inputAbout.value = profileSubtitle.textContent;
   buttonSaveUser.classList.remove('popup__button-save_inactive');
   buttonSaveUser.disabled = false;
-  const formValidator = new FormValidator(validationConfig, popupEdit);
-  formValidator.enableValidation();
   openPopup(popupEdit);
 }
 
 // Убрать ошибки после закрытия форм
-const hideAllErrors = () => {
-  const errorList = document.querySelectorAll('.popup__form-error');
-  const inputList = document.querySelectorAll('.popup__form-input');
+const hideAllErrors = (popup) => {
+  const errorList = popup.querySelectorAll('.popup__form-error');
+  const inputList = popup.querySelectorAll('.popup__form-input');
   inputList.forEach((item) => {
     item.classList.remove('popup__type-error');
   });
@@ -80,7 +88,7 @@ const removeListener = (popup) => {
 }
 
 // Закрыть popup через overlay
-const closeViaOverlay = (popup) => {
+const setListenerOverlay = (popup) => {
   popup.addEventListener('click', handlePressingMouse);
   document.addEventListener('keydown', handlePressingEsc);
 }
@@ -98,8 +106,6 @@ const formSubmitHandler = (event) => {
 //Отрыть popup для добавления нового места
 const openPopupAdd = () => {
   formAdd.reset();
-  const formValidator = new FormValidator(validationConfig, popupAdd);
-  formValidator.enableValidation();
   openPopup(popupAdd);
 }
 
@@ -133,6 +139,8 @@ formEdit.addEventListener('submit', formSubmitHandler);
 profileButtonAdd.addEventListener('click', openPopupAdd);
 popupCloseButtonAdd.addEventListener('click', closePopupAdd);
 formAdd.addEventListener('submit', formSubmitAddHandler);
+// Закрыть увеличенное изображение
+popupImageClose.addEventListener('click', closeIncImage);
 
 // Отображение стандартных карточек
 const uploadImages = () => {

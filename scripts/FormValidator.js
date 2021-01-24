@@ -8,6 +8,7 @@ export class FormValidator {
     this._formSelector = formSelector;
   }
 
+  // Показать текст ошибки
   _showInputError(inputElement, errorMessage) {
     const errorElement = this._formSelector.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._inputErrorClass);
@@ -15,6 +16,7 @@ export class FormValidator {
     errorElement.classList.add(this._errorClass);
   }
 
+  // Скрыть текст ошибки
   _hideInputError(inputElement) {
     const errorElement = this._formSelector.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
@@ -22,6 +24,7 @@ export class FormValidator {
     errorElement.textContent = '';
   }
 
+  // Проверка валидности данных
   _isValid(inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage)
@@ -30,12 +33,14 @@ export class FormValidator {
     }
   }
 
+  // Проверка валидности инпутов
   _hasInvalidInput(inputList) {
     return inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   }
 
+  // Включение || отключение кнопки взависимости от проверки на валидацию нескольких полей
   _toggleButtonState(inputList, buttonElement) {
     if(this._hasInvalidInput(inputList)){
       buttonElement.classList.add(this._inactiveButtonClass);
@@ -46,6 +51,7 @@ export class FormValidator {
     }
   }
 
+  // Получение элементов форм и их проверка
   _setEventListeners() {
     const inputList = Array.from(this._formSelector.querySelectorAll(this._inputSelector));
     const buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
@@ -58,6 +64,7 @@ export class FormValidator {
     });
   };
 
+  // Включение валидации форы
   enableValidation() {
     this._setEventListeners(this._formSelector);
   }
