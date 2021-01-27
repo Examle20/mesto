@@ -1,6 +1,8 @@
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { validationConfig, initialCards } from '../utils/constans.js';
+import { Popup } from '../components/Popup.js';
+import { UserInfo } from '../components/UserInfo.js'
 
 import '../styles/index.css';
 const profile = document.querySelector('.profile');
@@ -24,9 +26,65 @@ const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImage = document.querySelector('.popup_image');
 const popusForValidation = document.querySelectorAll('.popup_validation');
 
+
+// Открыть попап редактирования
+const openPopupEdit = () => {
+  const userInfo = new UserInfo({nameSelector: profileTitle.textContent, aboutSelector: profileSubtitle.textContent})
+  userInfo.getUserInfo({inputName: inputName, inputAbout: inputAbout});
+  const popup = new Popup(popupEdit);
+  popup.open();
+  popup.setEventListeners(popupCloseButtonEdit);
+
+  const formSubmitHandler = (event) => {
+    event.preventDefault();
+    userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
+    popup.close();
+  }
+
+  formEdit.addEventListener('submit', formSubmitHandler);
+}
+
+// Открыть попап добавления
+const openPopupAdd = () => {
+  formAdd.reset();
+  const popup = new Popup(popupAdd);
+  popup.open();
+  popup.setEventListeners(popupCloseButtonAdd);
+}
+
+const formSubmitHandler = (event) => {
+  event.preventDefault();
+  userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
+}
+
+
+profileEditButton.addEventListener('click', openPopupEdit);
+profileButtonAdd.addEventListener('click', openPopupAdd);
+formEdit.addEventListener('submit', formSubmitHandler);
+
+
+/*
+
+// Сохранение отредактированных данных
+const formSubmitHandler = (event) => {
+  event.preventDefault();
+  profileTitle.textContent = inputName.value;
+  profileSubtitle.textContent = inputAbout.value;
+  closePopup(popupEdit);
+};
+
+//Отрыть popup для редактирования
+const openPopupEdit = () => {
+  //inputName.value =  profileTitle.textContent;
+  //inputAbout.value = profileSubtitle.textContent;
+  //buttonSaveUser.classList.remove('popup__button-save_inactive');
+  //buttonSaveUser.disabled = false;
+  //openPopup(popupEdit);
+}
+
 //Открыть popup
 const openPopup = (popup) => {
-  popup.classList.add('popup_visible');
+  //popup.classList.add('popup_visible');
   setListenerOverlay(popup);
 }
 
@@ -43,14 +101,7 @@ const closeIncImage = () => {
   closePopup(popupImage);
 }
 
-//Отрыть popup для редактирования
-const openPopupEdit = () => {
-  inputName.value =  profileTitle.textContent;
-  inputAbout.value = profileSubtitle.textContent;
-  buttonSaveUser.classList.remove('popup__button-save_inactive');
-  buttonSaveUser.disabled = false;
-  openPopup(popupEdit);
-}
+
 
 // Убрать ошибки после закрытия форм
 const hideAllErrors = (popup) => {
@@ -65,11 +116,11 @@ const hideAllErrors = (popup) => {
 }
 
 // Отслеживание нажатия на Esc
-const handlePressingEsc = (evt) => {
-  if (evt.key === 'Escape') {
-    closePopup(document.querySelector('.popup_visible'));
-  }
-}
+//const handlePressingEsc = (evt) => {
+//  if (evt.key === 'Escape') {
+//    closePopup(document.querySelector('.popup_visible'));
+//  }
+//}
 
 // Отслеживание нажатия мыши на overlay
 const handlePressingMouse = (evt) => {
@@ -81,22 +132,16 @@ const handlePressingMouse = (evt) => {
 // Удалить слушатели события после закрытия popup
 const removeListener = (popup) => {
   popup.removeEventListener('click', handlePressingMouse);
-  document.removeEventListener('keydown', handlePressingEsc);
+  //document.removeEventListener('keydown', handlePressingEsc);
 }
 
 // Закрыть popup через overlay
 const setListenerOverlay = (popup) => {
   popup.addEventListener('click', handlePressingMouse);
-  document.addEventListener('keydown', handlePressingEsc);
+  //document.addEventListener('keydown', handlePressingEsc);
 }
 
-// Сохранение отредактированных данных
-const formSubmitHandler = (event) => {
-  event.preventDefault();
-  profileTitle.textContent = inputName.value;
-  profileSubtitle.textContent = inputAbout.value;
-  closePopup(popupEdit);
-};
+
 
 // Работа с popup для добавления нового места
 
@@ -156,4 +201,4 @@ const activeValidation = () => {
 }
 
 uploadImages();
-activeValidation();
+activeValidation(); */
