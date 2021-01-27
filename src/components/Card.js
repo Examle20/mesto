@@ -1,8 +1,5 @@
-import { openPopup, closePopup } from '../pages';
-
 const popupImage = document.querySelector('.popup_image');
-const image = popupImage.querySelector('.popup__image');
-const imageTitle = popupImage.querySelector('.popup__image-title');
+
 
 export class Card {
   constructor(data, cardSelector){
@@ -35,10 +32,9 @@ export class Card {
   // Увеличить изображение по нажатию
   _incImage(title, url) {
     return () => {
-      openPopup(popupImage);
-      image.setAttribute('src', url);
-      image.setAttribute('alt', 'Что-то с ссылкой на изображение');
-      imageTitle.textContent = title;
+      //image.setAttribute('src', url);
+      //image.setAttribute('alt', 'Что-то с ссылкой на изображение');
+      //imageTitle.textContent = title;
     }
   }
 

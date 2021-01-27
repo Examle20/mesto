@@ -4,6 +4,7 @@ import { validationConfig, initialCards } from '../utils/constans.js';
 import { Popup } from '../components/Popup.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { Section } from "../components/Section";
+import { PopupWithImage } from "../components/PopupWithImage";
 
 import '../styles/index.css';
 const elementContainer = document.querySelector('.elements__list');
@@ -26,11 +27,15 @@ const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
 const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImage = document.querySelector('.popup_image');
+const imagex = popupImage.querySelector('.popup__image');
+const imageTitle = popupImage.querySelector('.popup__image-title');
 const popusForValidation = document.querySelectorAll('.popup_validation');
 
 
 // Попап редактирования
 const openPopupEdit = () => {
+  buttonSaveUser.classList.remove('popup__button-save_inactive');
+  buttonSaveUser.disabled = false;
   const userInfo = new UserInfo({nameSelector: profileTitle.textContent, aboutSelector: profileSubtitle.textContent})
   userInfo.getUserInfo({inputName: inputName, inputAbout: inputAbout});
   const popup = new Popup(popupEdit);
@@ -59,33 +64,32 @@ const cardList = new Section({items: initialCards,
   renderer: (item) => {
     const card = new Card(item, '.elements__template');
     const cardElement = card._createCard();
+    const popupWithImage = new PopupWithImage(popupImage, {title: item.name, url: item.link});
+    popupWithImage.setEventListeners(popupImageClose);
+    cardElement.addEventListener('click', () => popupWithImage.open({name: imageTitle, url: imagex }));
     cardList.addItem(cardElement);
   }
 }, elementContainer);
+
+const activeValidation = () => {
+  popusForValidation.forEach((popupElement) => {
+    const formValidator = new FormValidator(validationConfig, popupElement);
+    formValidator.enableValidation();
+  });
+}
+
+
 
 profileEditButton.addEventListener('click', openPopupEdit);
 profileButtonAdd.addEventListener('click', openPopupAdd);
 
 cardList.renderItems();
-
+activeValidation();
 /*
 
-// Сохранение отредактированных данных
-const formSubmitHandler = (event) => {
-  event.preventDefault();
-  profileTitle.textContent = inputName.value;
-  profileSubtitle.textContent = inputAbout.value;
-  closePopup(popupEdit);
-};
 
-//Отрыть popup для редактирования
-const openPopupEdit = () => {
-  //inputName.value =  profileTitle.textContent;
-  //inputAbout.value = profileSubtitle.textContent;
-  //buttonSaveUser.classList.remove('popup__button-save_inactive');
-  //buttonSaveUser.disabled = false;
-  //openPopup(popupEdit);
-}
+
+
 
 
 
@@ -143,10 +147,7 @@ const openPopupAdd = () => {
   openPopup(popupAdd);
 }
 
-// Закрыть popup добавления нового места
-const closePopupAdd = () => {
-  closePopup(popupAdd);
-}
+
 
 //закрыть popup редактирования(callback на 192 строке)
 const closePopupEdit = () => {
@@ -179,12 +180,4 @@ popupImageClose.addEventListener('click', closeIncImage);
 
 
 // Включение валидации форм
-const activeValidation = () => {
-  popusForValidation.forEach((popupElement) => {
-    const formValidator = new FormValidator(validationConfig, popupElement);
-    formValidator.enableValidation();
-  });
-}
-
-
-activeValidation(); */
+ */
