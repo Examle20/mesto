@@ -5,7 +5,7 @@ import { Popup } from '../components/Popup.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { Section } from "../components/Section";
 import { PopupWithImage } from "../components/PopupWithImage";
-
+import { PopupWithForm } from "../components/PopupWithForm";
 import '../styles/index.css';
 const elementContainer = document.querySelector('.elements__list');
 const profile = document.querySelector('.profile');
@@ -38,25 +38,22 @@ const openPopupEdit = () => {
   buttonSaveUser.disabled = false;
   const userInfo = new UserInfo({nameSelector: profileTitle.textContent, aboutSelector: profileSubtitle.textContent})
   userInfo.getUserInfo({inputName: inputName, inputAbout: inputAbout});
-  const popup = new Popup(popupEdit);
-  popup.open();
-  popup.setEventListeners(popupCloseButtonEdit);
-
-  const formSubmitHandler = (event) => {
-    event.preventDefault();
+  const popup = new PopupWithForm(popupEdit, (evt) => {
+    evt.preventDefault();
     userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
-    popup.close();
-  }
-
-  formEdit.addEventListener('submit', formSubmitHandler);
+    popup.close(formEdit);
+  });
+  popup.open();
+  popup.setEventListeners(popupCloseButtonEdit, formEdit);
 }
 
 // Попап добавления нового места
 const openPopupAdd = () => {
-  formAdd.reset();
-  const popup = new Popup(popupAdd);
+  const popup = new PopupWithForm(popupAdd, () => {
+
+  });
   popup.open();
-  popup.setEventListeners(popupCloseButtonAdd);
+  popup.setEventListeners(popupCloseButtonAdd, formAdd);
 }
 
 // Отрисовка начальных изображений
