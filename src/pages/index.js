@@ -3,8 +3,10 @@ import { FormValidator } from '../components/FormValidator.js';
 import { validationConfig, initialCards } from '../utils/constans.js';
 import { Popup } from '../components/Popup.js';
 import { UserInfo } from '../components/UserInfo.js'
+import { Section } from "../components/Section";
 
 import '../styles/index.css';
+const elementContainer = document.querySelector('.elements__list');
 const profile = document.querySelector('.profile');
 const popupEdit = document.querySelector('.popup_edit');
 const profileEditButton =  profile.querySelector('.profile__button-edit');
@@ -27,7 +29,7 @@ const popupImage = document.querySelector('.popup_image');
 const popusForValidation = document.querySelectorAll('.popup_validation');
 
 
-// Открыть попап редактирования
+// Попап редактирования
 const openPopupEdit = () => {
   const userInfo = new UserInfo({nameSelector: profileTitle.textContent, aboutSelector: profileSubtitle.textContent})
   userInfo.getUserInfo({inputName: inputName, inputAbout: inputAbout});
@@ -44,7 +46,7 @@ const openPopupEdit = () => {
   formEdit.addEventListener('submit', formSubmitHandler);
 }
 
-// Открыть попап добавления
+// Попап добавления нового места
 const openPopupAdd = () => {
   formAdd.reset();
   const popup = new Popup(popupAdd);
@@ -52,16 +54,19 @@ const openPopupAdd = () => {
   popup.setEventListeners(popupCloseButtonAdd);
 }
 
-const formSubmitHandler = (event) => {
-  event.preventDefault();
-  userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
-}
-
+// Отрисовка начальных изображений
+const cardList = new Section({items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '.elements__template');
+    const cardElement = card._createCard();
+    cardList.addItem(cardElement);
+  }
+}, elementContainer);
 
 profileEditButton.addEventListener('click', openPopupEdit);
 profileButtonAdd.addEventListener('click', openPopupAdd);
-formEdit.addEventListener('submit', formSubmitHandler);
 
+cardList.renderItems();
 
 /*
 
@@ -82,20 +87,7 @@ const openPopupEdit = () => {
   //openPopup(popupEdit);
 }
 
-//Открыть popup
-const openPopup = (popup) => {
-  //popup.classList.add('popup_visible');
-  setListenerOverlay(popup);
-}
 
-// Закрыть popup
-const closePopup = (popup) => {
-  if (!popup.classList.contains('popup_image')) hideAllErrors(popup);
-  removeListener(popup);
-  popup.classList.remove('popup_visible');
-}
-
-export { openPopup, closePopup };
 
 const closeIncImage = () => {
   closePopup(popupImage);
@@ -184,13 +176,7 @@ formAdd.addEventListener('submit', formSubmitAddHandler);
 // Закрыть увеличенное изображение
 popupImageClose.addEventListener('click', closeIncImage);
 
-// Отображение стандартных карточек
-const uploadImages = () => {
-  initialCards.forEach((item) => {
-    const card = new Card(item, '.elements__template');
-    card.addCard();
-  })
-}
+
 
 // Включение валидации форм
 const activeValidation = () => {
@@ -200,5 +186,5 @@ const activeValidation = () => {
   });
 }
 
-uploadImages();
+
 activeValidation(); */

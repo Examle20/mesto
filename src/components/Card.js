@@ -61,7 +61,7 @@ export class Card {
   }
 
   // Добавление карточки в разметку
-  addCard() {
-    document.querySelector('.elements__list').prepend(this._createCard());
-  }
+  //addCard() {
+    //document.querySelector('.elements__list').prepend(this._createCard());
+  //}
 }
