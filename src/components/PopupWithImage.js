@@ -6,16 +6,12 @@ export class PopupWithImage extends Popup {
     this._title = title;
     this._url = url;
   }
+
   open({name, url}) {
     super.open();
-    name.textContent  = this._title;
+    name.textContent = this._title;
     url.setAttribute('src', this._url);
     url.setAttribute('alt', 'Что-то с ссылкой на изображение');
   }
-  close() {
-    super.close();
-  }
-  setEventListeners(buttonElement) {
-    super.setEventListeners(buttonElement);
-  }
 }
+

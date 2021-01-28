@@ -59,11 +59,12 @@ const openPopupAdd = () => {
 // Отрисовка начальных изображений
 const cardList = new Section({items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, '.elements__template');
+    const card = new Card(item, '.elements__template', () =>{
+      const popupWithImage = new PopupWithImage(popupImage, {title: item.name, url: item.link});
+      popupWithImage.open({name: imageTitle, url: imagex });
+      popupWithImage.setEventListeners();
+    });
     const cardElement = card._createCard();
-    const popupWithImage = new PopupWithImage(popupImage, {title: item.name, url: item.link});
-    popupWithImage.setEventListeners(popupImageClose);
-    cardElement.addEventListener('click', () => popupWithImage.open({name: imageTitle, url: imagex }));
     cardList.addItem(cardElement);
   }
 }, elementContainer);

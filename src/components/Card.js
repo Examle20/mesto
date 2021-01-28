@@ -2,11 +2,12 @@ const popupImage = document.querySelector('.popup_image');
 
 
 export class Card {
-  constructor(data, cardSelector){
+  constructor(data, cardSelector, enlargeImage){
     const {name, link} = data;
     this._placeTitle = name;
     this._placeUrl = link;
     this._cardSelector = cardSelector;
+    this._enlargeImage = enlargeImage;
   }
 
   // Забрать разметку шаблона
@@ -42,7 +43,7 @@ export class Card {
   _setEventListener() {
     this._elementsItem.querySelector('.elements__basket').addEventListener('click', () => this._removeCard());
     this._elementsItem.querySelector('.elements__like').addEventListener('click', this._putLike);
-    this._image.addEventListener('click', this._incImage(this._placeTitle, this._placeUrl));
+    this._image.addEventListener('click', this._enlargeImage);
   }
 
   // Создание карточки

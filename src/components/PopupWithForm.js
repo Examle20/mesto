@@ -12,7 +12,7 @@ export class PopupWithForm extends Popup {
   close(formSelector) {
     super.close();
     this._popupSelector.querySelector('.popup__form').reset();
-    formSelector.removeEventListener('submit', this._handleFormSubmit);
+    //formSelector.removeEventListener('submit', this._handleFormSubmit);
   }
 
   setEventListeners(buttonElement, formSelector) {
