@@ -41,26 +41,37 @@ const openPopupEdit = () => {
   const popup = new PopupWithForm(popupEdit, (evt) => {
     evt.preventDefault();
     userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
-    popup.close(formEdit);
+    popup.close();
   });
   popup.open();
-  popup.setEventListeners(popupCloseButtonEdit, formEdit);
+  popup.setEventListeners();
 }
 
 // Попап добавления нового места
 const openPopupAdd = () => {
-  const popup = new PopupWithForm(popupAdd, () => {
+  const popup = new PopupWithForm(popupAdd, (evt) => {
+    evt.preventDefault();
+    const card = new Card(popup._getInputValues(), '.elements__template', () => {
+      const popupWithImage = new PopupWithImage(popupImage, card.data);
+      popupWithImage.open({name: imageTitle, url: imagex });
+      popupWithImage.setEventListeners();
+    })
 
+    const cardElement = card._createCard();
+    cardList.addItem(cardElement);
+    popup.close();
+    console.log(card.constructor);
   });
   popup.open();
-  popup.setEventListeners(popupCloseButtonAdd, formAdd);
+
+  popup.setEventListeners();
 }
 
 // Отрисовка начальных изображений
 const cardList = new Section({items: initialCards,
   renderer: (item) => {
     const card = new Card(item, '.elements__template', () =>{
-      const popupWithImage = new PopupWithImage(popupImage, {title: item.name, url: item.link});
+      const popupWithImage = new PopupWithImage(popupImage, {name: item.name, link: item.link});
       popupWithImage.open({name: imageTitle, url: imagex });
       popupWithImage.setEventListeners();
     });
@@ -85,18 +96,6 @@ cardList.renderItems();
 activeValidation();
 /*
 
-
-
-
-
-
-
-const closeIncImage = () => {
-  closePopup(popupImage);
-}
-
-
-
 // Убрать ошибки после закрытия форм
 const hideAllErrors = (popup) => {
   const errorList = popup.querySelectorAll('.popup__form-error');
@@ -109,12 +108,6 @@ const hideAllErrors = (popup) => {
   });
 }
 
-// Отслеживание нажатия на Esc
-//const handlePressingEsc = (evt) => {
-//  if (evt.key === 'Escape') {
-//    closePopup(document.querySelector('.popup_visible'));
-//  }
-//}
 
 // Отслеживание нажатия мыши на overlay
 const handlePressingMouse = (evt) => {
@@ -123,33 +116,10 @@ const handlePressingMouse = (evt) => {
   }
 }
 
-// Удалить слушатели события после закрытия popup
-const removeListener = (popup) => {
-  popup.removeEventListener('click', handlePressingMouse);
-  //document.removeEventListener('keydown', handlePressingEsc);
-}
-
 // Закрыть popup через overlay
 const setListenerOverlay = (popup) => {
   popup.addEventListener('click', handlePressingMouse);
   //document.addEventListener('keydown', handlePressingEsc);
-}
-
-
-
-// Работа с popup для добавления нового места
-
-//Отрыть popup для добавления нового места
-const openPopupAdd = () => {
-  formAdd.reset();
-  openPopup(popupAdd);
-}
-
-
-
-//закрыть popup редактирования(callback на 192 строке)
-const closePopupEdit = () => {
-  closePopup(popupEdit);
 }
 
 // Кнопка добавления нового места
@@ -164,9 +134,6 @@ const formSubmitAddHandler = (event) => {
 }
 
 // Работа с popup для редактирования
-profileEditButton.addEventListener('click', openPopupEdit);
-popupCloseButtonEdit.addEventListener('click', closePopupEdit);
-formEdit.addEventListener('submit', formSubmitHandler);
 
 // Обработчики кнопок для добавления||удаления нового места
 profileButtonAdd.addEventListener('click', openPopupAdd);
