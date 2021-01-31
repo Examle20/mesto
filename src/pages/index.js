@@ -3,89 +3,87 @@ import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { validationConfig, initialCards } from '../utils/constans.js';
 import { UserInfo } from '../components/UserInfo.js'
-import { Section } from "../components/Section";
-import { PopupWithImage } from "../components/PopupWithImage";
-import { PopupWithForm } from "../components/PopupWithForm";
+import { Section } from '../components/Section';
+import { PopupWithImage } from '../components/PopupWithImage';
+import { PopupWithForm } from '../components/PopupWithForm';
+import {
+  elementContainer,
+  profileEditButton,
+  profileButtonAdd,
+  buttonSavePlace,
+  buttonSaveUser } from '../utils/constans'
 
-const elementContainer = document.querySelector('.elements__list');
-const profile = document.querySelector('.profile');
-const popupEdit = document.querySelector('.popup_edit');
-const profileEditButton =  profile.querySelector('.profile__button-edit');
-const profileTitle = profile.querySelector('.profile__title');
-const profileSubtitle = profile.querySelector('.profile__subtitle');
-const userInfoSelectors = {nameSelector: profileTitle, aboutSelector: profileSubtitle};
-const inputName = popupEdit.querySelector('.popup__form-input_field_name');
-const inputAbout = popupEdit.querySelector('.popup__form-input_field_about');
-const userInfoInputs = {inputName, inputAbout};
-const popupAdd = document.querySelector('.popup_add');
-const profileButtonAdd = profile.querySelector('.profile__button-add');
-const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
-const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
-const popupImage = document.querySelector('.popup_image');
-const image = popupImage.querySelector('.popup__image');
-const imageTitle = popupImage.querySelector('.popup__image-title');
-const imageData = {imageTitle, image};
-const popusForValidation = document.querySelectorAll('.popup_validation');
+// Экземпляр класса для работы с данными профиля
+const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.profile__subtitle'})
 
-const userInfo = new UserInfo(userInfoSelectors)
+// Экземпляры класса для валидации форм
+const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
+const addFormValidation = new FormValidator(validationConfig, '.popup_add');
 
-// Попап редактирования
+// Popup профиля
+const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
+  evt.preventDefault();
+  userInfo.setUserInfo();
+  popupEdit.close();
+  buttonSaveUser.disabled = true; // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
+  //Cannot GET /pages/index.js
+});
+
+// Popup для увеличения изображений
+const popupWithImage = new PopupWithImage('.popup_image');
+
+// Создание новой карточки
+const createCard = (items) => {
+  const card = new Card(items, '.elements__template', () => {
+    popupWithImage.open(items);
+    popupWithImage.setEventListeners();
+  })
+  return card._createCard();
+}
+
+// Popup добавления новых карточек
+const popupAdd = new PopupWithForm('.popup_add', (evt) => {
+  evt.preventDefault();
+  cardList.addItem(createCard(popupAdd.returnData()));
+  popupAdd.close();
+  buttonSavePlace.disabled = true; // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
+  // Cannot GET /pages/index.js
+});
+
+
+// Popup редактирования
 const openPopupEdit = () => {
   buttonSaveUser.classList.remove('popup__button-save_inactive');
   buttonSaveUser.disabled = false;
-  userInfo.getUserInfo(userInfoInputs);
-  const popup = new PopupWithForm(popupEdit, (evt) => {
-    evt.preventDefault();
-    userInfo.setUserInfo(userInfoInputs );
-    popup.close();
-  });
-  popup.setEventListeners();
-  popup.open();
+  editFormValidation.resetValidation();
+  userInfo.openUserInfo(userInfo.getUserInfo());
+  popupEdit.setEventListeners();
+  popupEdit.open();
 }
 
-// Попап добавления нового места
+// Popup добавления нового места
 const openPopupAdd = () => {
-  buttonSavePlace.disabled = true;
-  const popup = new PopupWithForm(popupAdd, (evt) => {
-    evt.preventDefault();
-    const card = new Card(popup.returnData(), '.elements__template', () => {
-      const popupWithImage = new PopupWithImage(popupImage, card.returnData());
-      popupWithImage.open(imageData);
-      popupWithImage.setEventListeners();
-    })
-    const cardElement = card._createCard();
-    cardList.addItem(cardElement);
-    popup.close();
-  });
-  popup.open();
-  popup.setEventListeners();
+  buttonSavePlace.classList.add('popup__button-save_inactive')
+  buttonSaveUser.disabled = true;
+  addFormValidation.resetValidation();
+  popupAdd.open();
+  popupAdd.setEventListeners();
 }
 
 // Отрисовка начальных изображений
 const cardList = new Section({items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, '.elements__template', () =>{
-      const popupWithImage = new PopupWithImage(popupImage, {name: item.name, link: item.link});
-      popupWithImage.open(imageData);
-      popupWithImage.setEventListeners();
-    });
-    const cardElement = card._createCard();
-    cardList.addItem(cardElement);
+    cardList.addItem(createCard(item));
   }
 }, elementContainer);
-
-// Включение валидации инпутов
-const activeValidation = () => {
-  popusForValidation.forEach((popupElement) => {
-    const formValidator = new FormValidator(validationConfig, popupElement);
-    formValidator.enableValidation();
-  });
-}
 
 // Слушатели кнопок попав добавления и редактирования
 profileEditButton.addEventListener('click', openPopupEdit);
 profileButtonAdd.addEventListener('click', openPopupAdd);
 
+// Отрисовка начальных изображений
 cardList.renderItems();
-activeValidation();
 
+// Включение валидации форм
+editFormValidation.enableValidation();
+addFormValidation.enableValidation();

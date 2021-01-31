@@ -1,17 +1,25 @@
 export class UserInfo {
-  constructor(userInfoSelectors) {
-    const {nameSelector, aboutSelector} = userInfoSelectors;
-    this._nameSelector = nameSelector;
-    this._aboutSelector = aboutSelector;
+  constructor( { nameSelector, aboutSelector } ) {
+    this._userName = document.querySelector(nameSelector);
+    this._userAbout = document.querySelector(aboutSelector);
+    this._inputName = document.querySelector('.popup__form-input_field_name');
+    this._inputAbout = document.querySelector('.popup__form-input_field_about');
   }
 
-  getUserInfo({inputName, inputAbout}) {
-    inputName.value = this._nameSelector.textContent;
-    inputAbout.value = this._aboutSelector.textContent;
+  getUserInfo() {
+    const userData = {};
+    userData.name = this._userName.textContent;
+    userData.about = this._userAbout.textContent;
+    return userData;
   }
 
-  setUserInfo({inputName, inputAbout}) {
-    this._nameSelector.textContent = inputName.value;
-    this._aboutSelector.textContent = inputAbout.value;
+  openUserInfo({name, about}) {
+    this._inputName.value = name;
+    this._inputAbout.value = about;
+  }
+
+  setUserInfo() {
+    this._userName.textContent = this._inputName.value;
+    this._userAbout.textContent = this._inputAbout.value;
   }
 }

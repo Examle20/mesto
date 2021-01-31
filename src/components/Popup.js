@@ -1,10 +1,8 @@
-import { hideAllErrors } from "../utils/utils.js";
-
 export class Popup {
 
   constructor(popupSelector) {
-    this._popupSelector = popupSelector;
-    this._buttonElement = this._popupSelector.querySelector('.popup__button-close');
+    this._popup = document.querySelector(popupSelector);
+    this._buttonElement = this._popup.querySelector('.popup__button-close');
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handlePressingMouse = this._handlePressingMouse.bind(this);
     this.close = this.close.bind(this);
@@ -26,27 +24,26 @@ export class Popup {
 
   // Открыть popup
   open(open) {
-    this._popupSelector.classList.add('popup_visible');
+    this._popup.classList.add('popup_visible');
   }
 
   // Закрыть popup и удалить слушатели
   close() {
     this._deleteEventListeners();
-    this._popupSelector.classList.remove('popup_visible');
-    hideAllErrors(this._popupSelector);
+    this._popup.classList.remove('popup_visible');
   }
 
   // Удаление слушателей
   _deleteEventListeners() {
     this._buttonElement.removeEventListener('click', this.close);
-    this._popupSelector.removeEventListener('click', this._handlePressingMouse);
+    this._popup.removeEventListener('click', this._handlePressingMouse);
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
   // Добавить слушатели
   setEventListeners() {
     this._buttonElement.addEventListener('click', this.close);
-    this._popupSelector.addEventListener('click', this._handlePressingMouse);
+    this._popup.addEventListener('click', this._handlePressingMouse);
     document.addEventListener('keydown', this._handleEscClose);
   }
 }

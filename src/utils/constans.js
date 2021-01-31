@@ -33,3 +33,11 @@ export const validationConfig = {
   inputErrorClass: 'popup__type-error',
   errorClass: 'popup__form-error_active'
 }
+
+export const elementContainer = document.querySelector('.elements__list');
+export const profile = document.querySelector('.profile');
+export const profileEditButton =  profile.querySelector('.profile__button-edit');
+export const profileButtonAdd = profile.querySelector('.profile__button-add');
+export const buttonSavePlace = document.querySelector('.popup__button-save_place');
+export const buttonSaveUser = document.querySelector('.popup__button-save_user');
+
