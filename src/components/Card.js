@@ -29,8 +29,7 @@ export class Card {
 
   // Возвращение данных для создания popupWithImage во время добавления новой карточки
   returnData()  {
-    const data = {name: this._placeTitle, link: this._placeUrl};
-    return data;
+    return  {name: this._placeTitle, link: this._placeUrl};
   }
 
   // Слушатели кнопок на карточке
