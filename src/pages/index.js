@@ -29,8 +29,9 @@ const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
 const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImage = document.querySelector('.popup_image');
-const imagex = popupImage.querySelector('.popup__image');
+const image = popupImage.querySelector('.popup__image');
 const imageTitle = popupImage.querySelector('.popup__image-title');
+const imageData = {imageTitle, image};
 const popusForValidation = document.querySelectorAll('.popup_validation');
 
 const userInfo = new UserInfo(userInfoSelectors)
@@ -55,17 +56,14 @@ const openPopupAdd = () => {
     evt.preventDefault();
     const card = new Card(popup.returnData(), '.elements__template', () => {
       const popupWithImage = new PopupWithImage(popupImage, card.returnData());
-      popupWithImage.open({name: imageTitle, url: imagex });
+      popupWithImage.open(imageData);
       popupWithImage.setEventListeners();
     })
-
     const cardElement = card._createCard();
     cardList.addItem(cardElement);
     popup.close();
-    console.log('hi');
   });
   popup.open();
-
   popup.setEventListeners();
 }
 
@@ -74,7 +72,7 @@ const cardList = new Section({items: initialCards,
   renderer: (item) => {
     const card = new Card(item, '.elements__template', () =>{
       const popupWithImage = new PopupWithImage(popupImage, {name: item.name, link: item.link});
-      popupWithImage.open({name: imageTitle, url: imagex });
+      popupWithImage.open(imageData);
       popupWithImage.setEventListeners();
     });
     const cardElement = card._createCard();

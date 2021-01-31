@@ -8,13 +8,11 @@ export class PopupWithImage extends Popup {
     this._url = link;
   }
 
-  open({name, url}) {
+  open({imageTitle, image}) {
     super.open();
-    console.log('hi');
-    console.log(this._title);
-    name.textContent = this._title;
-    url.setAttribute('src', this._url);
-    url.setAttribute('alt', 'Что-то с ссылкой на изображение');
+    imageTitle.textContent = this._title;
+    image.setAttribute('src', this._url);
+    image.setAttribute('alt', 'Что-то с ссылкой на изображение');
   }
 }
 
