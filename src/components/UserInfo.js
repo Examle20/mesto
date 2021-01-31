@@ -1,5 +1,6 @@
 export class UserInfo {
-  constructor({nameSelector, aboutSelector}) {
+  constructor(userInfoSelectors) {
+    const {nameSelector, aboutSelector} = userInfoSelectors;
     this._nameSelector = nameSelector;
     this._aboutSelector = aboutSelector;
   }

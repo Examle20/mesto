@@ -14,8 +14,10 @@ const profileEditButton =  profile.querySelector('.profile__button-edit');
 const popupCloseButtonEdit = popupEdit.querySelector('.popup__button-close_edit');
 const profileTitle = profile.querySelector('.profile__title');
 const profileSubtitle = profile.querySelector('.profile__subtitle');
+const userInfoSelectors = {nameSelector: profileTitle, aboutSelector: profileSubtitle};
 const inputName = popupEdit.querySelector('.popup__form-input_field_name');
 const inputAbout = popupEdit.querySelector('.popup__form-input_field_about');
+const userInfoInputs = {inputName, inputAbout};
 const formEdit = popupEdit.querySelector('.popup__form');
 const popupAdd = document.querySelector('.popup_add');
 const profileButtonAdd = profile.querySelector('.profile__button-add');
@@ -31,16 +33,16 @@ const imagex = popupImage.querySelector('.popup__image');
 const imageTitle = popupImage.querySelector('.popup__image-title');
 const popusForValidation = document.querySelectorAll('.popup_validation');
 
-const userInfo = new UserInfo({nameSelector: profileTitle, aboutSelector: profileSubtitle})
+const userInfo = new UserInfo(userInfoSelectors)
 
 // Попап редактирования
 const openPopupEdit = () => {
   buttonSaveUser.classList.remove('popup__button-save_inactive');
   buttonSaveUser.disabled = false;
-  userInfo.getUserInfo({inputName: inputName, inputAbout: inputAbout});
+  userInfo.getUserInfo(userInfoInputs);
   const popup = new PopupWithForm(popupEdit, (evt) => {
     evt.preventDefault();
-    userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
+    userInfo.setUserInfo(userInfoInputs );
     popup.close();
   });
   popup.setEventListeners();
