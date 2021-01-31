@@ -88,16 +88,4 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 
 cardList.renderItems();
 activeValidation();
-/*
 
-// Убрать ошибки после закрытия форм
-const hideAllErrors = (popup) => {
-  const errorList = popup.querySelectorAll('.popup__form-error');
-  const inputList = popup.querySelectorAll('.popup__form-input');
-  inputList.forEach((item) => {
-    item.classList.remove('popup__type-error');
-  });
-  errorList.forEach((item) => {
-    item.classList.remove('popup__form-error_active');
-  });
-}*/

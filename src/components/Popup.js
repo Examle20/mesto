@@ -1,4 +1,7 @@
+import { hideAllErrors } from "../utils/utils.js";
+
 export class Popup {
+
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
     this._buttonElement = this._popupSelector.querySelector('.popup__button-close');
@@ -30,6 +33,7 @@ export class Popup {
   close() {
     this._deleteEventListeners();
     this._popupSelector.classList.remove('popup_visible');
+    hideAllErrors(this._popupSelector);
   }
 
   // Удаление слушателей

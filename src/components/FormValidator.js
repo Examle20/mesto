@@ -6,7 +6,9 @@ export class FormValidator {
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
     this._formSelector = formSelector;
+    this._profileButtons = document.querySelectorAll('.profile_button');
   }
+
 
   // Показать текст ошибки
   _showInputError(inputElement, errorMessage) {
