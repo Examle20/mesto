@@ -31,28 +31,28 @@ const imagex = popupImage.querySelector('.popup__image');
 const imageTitle = popupImage.querySelector('.popup__image-title');
 const popusForValidation = document.querySelectorAll('.popup_validation');
 
+const userInfo = new UserInfo({nameSelector: profileTitle, aboutSelector: profileSubtitle})
 
 // Попап редактирования
 const openPopupEdit = () => {
   buttonSaveUser.classList.remove('popup__button-save_inactive');
   buttonSaveUser.disabled = false;
-  const userInfo = new UserInfo({nameSelector: profileTitle.textContent, aboutSelector: profileSubtitle.textContent})
   userInfo.getUserInfo({inputName: inputName, inputAbout: inputAbout});
   const popup = new PopupWithForm(popupEdit, (evt) => {
     evt.preventDefault();
     userInfo.setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout});
     popup.close();
   });
-  popup.open();
   popup.setEventListeners();
+  popup.open();
 }
 
 // Попап добавления нового места
 const openPopupAdd = () => {
   const popup = new PopupWithForm(popupAdd, (evt) => {
     evt.preventDefault();
-    const card = new Card(popup._getInputValues(), '.elements__template', () => {
-      const popupWithImage = new PopupWithImage(popupImage, card.data);
+    const card = new Card(popup.returnData(), '.elements__template', () => {
+      const popupWithImage = new PopupWithImage(popupImage, card.returnData());
       popupWithImage.open({name: imageTitle, url: imagex });
       popupWithImage.setEventListeners();
     })
@@ -60,7 +60,7 @@ const openPopupAdd = () => {
     const cardElement = card._createCard();
     cardList.addItem(cardElement);
     popup.close();
-    console.log(card.constructor);
+    console.log('hi');
   });
   popup.open();
 
@@ -120,29 +120,4 @@ const handlePressingMouse = (evt) => {
 const setListenerOverlay = (popup) => {
   popup.addEventListener('click', handlePressingMouse);
   //document.addEventListener('keydown', handlePressingEsc);
-}
-
-// Кнопка добавления нового места
-const formSubmitAddHandler = (event) => {
-  event.preventDefault();
-  const card = new Card({name: fieldTitlePlace.value, link: fieldtitleUrl.value}, '.elements__template');
-  card.addCard();
-  formAdd.reset();
-  buttonSavePlace.classList.add('popup__button-save_inactive');
-  buttonSavePlace.disabled = true;
-  closePopupAdd();
-}
-
-// Работа с popup для редактирования
-
-// Обработчики кнопок для добавления||удаления нового места
-profileButtonAdd.addEventListener('click', openPopupAdd);
-popupCloseButtonAdd.addEventListener('click', closePopupAdd);
-formAdd.addEventListener('submit', formSubmitAddHandler);
-// Закрыть увеличенное изображение
-popupImageClose.addEventListener('click', closeIncImage);
-
-
-
-// Включение валидации форм
- */
+}*/

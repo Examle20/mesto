@@ -5,12 +5,12 @@ export class UserInfo {
   }
 
   getUserInfo({inputName, inputAbout}) {
-    inputName.value = this._nameSelector;
-    inputAbout.value = this._aboutSelector;
+    inputName.value = this._nameSelector.textContent;
+    inputAbout.value = this._aboutSelector.textContent;
   }
 
-  setUserInfo({profileTitle, profileSubtitle, inputName, inputAbout}) {
-    profileTitle.textContent = inputName.value;
-    profileSubtitle.textContent = inputAbout.value;
+  setUserInfo({inputName, inputAbout}) {
+    this._nameSelector.textContent = inputName.value;
+    this._aboutSelector.textContent = inputAbout.value;
   }
 }

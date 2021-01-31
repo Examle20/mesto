@@ -12,7 +12,7 @@ export class Popup {
     }
   }
 
-  open() {
+  open(open) {
     this._popupSelector.classList.add('popup_visible');
   }
 

@@ -1,6 +1,5 @@
 const popupImage = document.querySelector('.popup_image');
 
-
 export class Card {
   constructor(data, cardSelector, handleCardClick){
     const {name, link} = data;
@@ -39,6 +38,10 @@ export class Card {
     }
   }
 
+  returnData()  {
+    const data = {name: this._placeTitle, link: this._placeUrl};
+    return data;
+  }
   // Слушатели кнопок на карточке
   _setEventListener() {
     this._elementsItem.querySelector('.elements__basket').addEventListener('click', () => this._removeCard());
