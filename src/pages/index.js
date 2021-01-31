@@ -87,8 +87,6 @@ const activeValidation = () => {
   });
 }
 
-
-
 profileEditButton.addEventListener('click', openPopupEdit);
 profileButtonAdd.addEventListener('click', openPopupAdd);
 
@@ -106,18 +104,4 @@ const hideAllErrors = (popup) => {
   errorList.forEach((item) => {
     item.classList.remove('popup__form-error_active');
   });
-}
-
-
-// Отслеживание нажатия мыши на overlay
-const handlePressingMouse = (evt) => {
-  if (evt.target.classList.contains('popup')){
-    closePopup(evt.target);
-  }
-}
-
-// Закрыть popup через overlay
-const setListenerOverlay = (popup) => {
-  popup.addEventListener('click', handlePressingMouse);
-  //document.addEventListener('keydown', handlePressingEsc);
 }*/
