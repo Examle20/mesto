@@ -1,33 +1,26 @@
+import '../styles/index.css';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { validationConfig, initialCards } from '../utils/constans.js';
-import { Popup } from '../components/Popup.js';
 import { UserInfo } from '../components/UserInfo.js'
 import { Section } from "../components/Section";
 import { PopupWithImage } from "../components/PopupWithImage";
 import { PopupWithForm } from "../components/PopupWithForm";
-import '../styles/index.css';
+
 const elementContainer = document.querySelector('.elements__list');
 const profile = document.querySelector('.profile');
 const popupEdit = document.querySelector('.popup_edit');
 const profileEditButton =  profile.querySelector('.profile__button-edit');
-const popupCloseButtonEdit = popupEdit.querySelector('.popup__button-close_edit');
 const profileTitle = profile.querySelector('.profile__title');
 const profileSubtitle = profile.querySelector('.profile__subtitle');
 const userInfoSelectors = {nameSelector: profileTitle, aboutSelector: profileSubtitle};
 const inputName = popupEdit.querySelector('.popup__form-input_field_name');
 const inputAbout = popupEdit.querySelector('.popup__form-input_field_about');
 const userInfoInputs = {inputName, inputAbout};
-const formEdit = popupEdit.querySelector('.popup__form');
 const popupAdd = document.querySelector('.popup_add');
 const profileButtonAdd = profile.querySelector('.profile__button-add');
-const popupCloseButtonAdd = popupAdd.querySelector('.popup__button-close_add');
-const formAdd = popupAdd.querySelector('.popup__form');
-const fieldTitlePlace = popupAdd.querySelector('.popup__form-input_field_place');
-const fieldtitleUrl = popupAdd.querySelector('.popup__form-input_field_url');
 const buttonSavePlace = popupAdd.querySelector('.popup__button-save_place');
 const buttonSaveUser = popupEdit.querySelector('.popup__button-save');
-const popupImageClose = document.querySelector('.popup__button-close_image');
 const popupImage = document.querySelector('.popup_image');
 const image = popupImage.querySelector('.popup__image');
 const imageTitle = popupImage.querySelector('.popup__image-title');
@@ -52,6 +45,7 @@ const openPopupEdit = () => {
 
 // Попап добавления нового места
 const openPopupAdd = () => {
+  buttonSavePlace.disabled = true;
   const popup = new PopupWithForm(popupAdd, (evt) => {
     evt.preventDefault();
     const card = new Card(popup.returnData(), '.elements__template', () => {
@@ -80,6 +74,7 @@ const cardList = new Section({items: initialCards,
   }
 }, elementContainer);
 
+// Включение валидации инпутов
 const activeValidation = () => {
   popusForValidation.forEach((popupElement) => {
     const formValidator = new FormValidator(validationConfig, popupElement);
@@ -87,6 +82,7 @@ const activeValidation = () => {
   });
 }
 
+// Слушатели кнопок попав добавления и редактирования
 profileEditButton.addEventListener('click', openPopupEdit);
 profileButtonAdd.addEventListener('click', openPopupAdd);
 

@@ -7,33 +7,39 @@ export class Popup {
     this.close = this.close.bind(this);
   }
 
+  // Закрыть через Esc
   _handleEscClose(evt) {
     if(evt.key === 'Escape'){
       this.close();
     }
   }
 
+  // Закрыть через оверлей
   _handlePressingMouse(evt) {
     if (evt.target.classList.contains('popup')){
       this.close();
     }
   }
 
+  // Открыть popup
   open(open) {
     this._popupSelector.classList.add('popup_visible');
   }
 
+  // Закрыть popup и удалить слушатели
   close() {
     this._deleteEventListeners();
     this._popupSelector.classList.remove('popup_visible');
   }
 
+  // Удаление слушателей
   _deleteEventListeners() {
     this._buttonElement.removeEventListener('click', this.close);
     this._popupSelector.removeEventListener('click', this._handlePressingMouse);
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
+  // Добавить слушатели
   setEventListeners() {
     this._buttonElement.addEventListener('click', this.close);
     this._popupSelector.addEventListener('click', this._handlePressingMouse);

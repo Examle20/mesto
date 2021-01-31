@@ -1,5 +1,3 @@
-const popupImage = document.querySelector('.popup_image');
-
 export class Card {
   constructor(data, cardSelector, handleCardClick){
     const {name, link} = data;
@@ -29,19 +27,12 @@ export class Card {
     evt.target.classList.toggle('elements_like_active');
   }
 
-  // Увеличить изображение по нажатию
-  _incImage(title, url) {
-    return () => {
-      //image.setAttribute('src', url);
-      //image.setAttribute('alt', 'Что-то с ссылкой на изображение');
-      //imageTitle.textContent = title;
-    }
-  }
-
+  // Возвращение данных для создания popupWithImage во время добавления новой карточки
   returnData()  {
     const data = {name: this._placeTitle, link: this._placeUrl};
     return data;
   }
+
   // Слушатели кнопок на карточке
   _setEventListener() {
     this._elementsItem.querySelector('.elements__basket').addEventListener('click', () => this._removeCard());
@@ -59,9 +50,4 @@ export class Card {
     this._setEventListener();
     return this._elementsItem;
   }
-
-  // Добавление карточки в разметку
-  //addCard() {
-    //document.querySelector('.elements__list').prepend(this._createCard());
-  //}
 }

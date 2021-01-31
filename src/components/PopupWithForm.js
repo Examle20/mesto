@@ -8,6 +8,7 @@ export class PopupWithForm extends Popup {
 
   }
 
+  // Собрать даные с инпутов формы
   _getInputValues() {
     const inputValues = {};
     this._formSelector.querySelectorAll('.popup__form-input').forEach((item) =>{
@@ -16,16 +17,19 @@ export class PopupWithForm extends Popup {
     return inputValues;
   }
 
+  // Закрыть popup
   close() {
     super.close();
     this._formSelector.reset();
     this._formSelector.removeEventListener('submit', this._handleFormSubmit);
   }
 
+  // Получение данных из инпутов для создания экземпляра Card
   returnData() {
    return  this._getInputValues();
   }
 
+  // Повесить слушатели
   setEventListeners() {
     super.setEventListeners();
     this._formSelector.addEventListener('submit', this._handleFormSubmit);
