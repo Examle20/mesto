@@ -70,6 +70,16 @@ export class FormValidator {
     });
   }
 
+  enableButton() {
+    this._buttonElement.classList.remove('popup__button-save_inactive');
+    this._buttonElement.disabled = false;
+  }
+
+  disableButton() {
+    this._buttonElement.classList.add('popup__button-save_inactive');
+    this._buttonElement.disabled = true;
+  }
+
   // Включение валидации форы
   enableValidation() {
     this._setEventListeners(this._form);

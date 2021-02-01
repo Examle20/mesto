@@ -9,9 +9,7 @@ import { PopupWithForm } from '../components/PopupWithForm';
 import {
   elementContainer,
   profileEditButton,
-  profileButtonAdd,
-  buttonSavePlace,
-  buttonSaveUser } from '../utils/constans'
+  profileButtonAdd } from '../utils/constans'
 
 // Экземпляр класса для работы с данными профиля
 const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.profile__subtitle'})
@@ -25,7 +23,7 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
   evt.preventDefault();
   userInfo.setUserInfo();
   popupEdit.close();
-  buttonSaveUser.disabled = true; // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
+  editFormValidation.disableButton(); // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
   //Cannot GET /pages/index.js
 });
 
@@ -38,7 +36,7 @@ const createCard = (items) => {
     popupWithImage.open(items);
     popupWithImage.setEventListeners();
   })
-  return card._createCard();
+  return card.createCard();
 }
 
 // Popup добавления новых карточек
@@ -46,28 +44,26 @@ const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   evt.preventDefault();
   cardList.addItem(createCard(popupAdd.returnData()));
   popupAdd.close();
-  buttonSavePlace.disabled = true; // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
+  addFormValidation.disableButton(); // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
   // Cannot GET /pages/index.js
 });
 
 
 // Popup редактирования
 const openPopupEdit = () => {
-  buttonSaveUser.classList.remove('popup__button-save_inactive');
-  buttonSaveUser.disabled = false;
+  editFormValidation.enableButton();
   editFormValidation.resetValidation();
   userInfo.openUserInfo(userInfo.getUserInfo());
-  popupEdit.setEventListeners();
+  popupEdit.setEventListeners();// По заданию метод публичный, поэтому здесь и вызываю
   popupEdit.open();
 }
 
 // Popup добавления нового места
 const openPopupAdd = () => {
-  buttonSavePlace.classList.add('popup__button-save_inactive')
-  buttonSaveUser.disabled = true;
+  addFormValidation.disableButton();
   addFormValidation.resetValidation();
   popupAdd.open();
-  popupAdd.setEventListeners();
+  popupAdd.setEventListeners();// По заданию метод публичный, поэтому здесь и вызываю
 }
 
 // Отрисовка начальных изображений

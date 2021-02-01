@@ -40,7 +40,7 @@ export class Card {
   }
 
   // Создание карточки
-  _createCard() {
+  createCard() {
     this._elementsItem = this._getTemplate();
     this._image = this._elementsItem.querySelector('.elements__image');
     this._elementsItem.querySelector('.elements__title').textContent = this._placeTitle;
