@@ -44,7 +44,6 @@ export class Api {
   }
 
   addCard({name, link}) {
-    console.log({name, link})
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: {
@@ -55,6 +54,19 @@ export class Api {
         name: name,
         link: link,
       })
+    })
+  }
+
+  putLike() {
+
+  }
+  removeCard(_id) {
+    return fetch(`${this.baseUrl}/cards/${_id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.headers.authorization,
+        'Content-Type': 'application/json',
+      },
     })
   }
 }

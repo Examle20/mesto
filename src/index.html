@@ -80,13 +80,23 @@
       <figcaption class="popup__image-title"></figcaption>
     </figure>
   </div>
+  <div class="popup popup_delete">
+    <div class="popup__container">
+      <p class="popup__delete-text">Вы уверены?</p>
+      <button class="popup__button-save popup__button-save_verification">Да</button>
+      <button type="button" class="popup__button-close"> </button>
+    </div>
+  </div>
   <template class="elements__template">
     <li class="elements__item">
       <img src="<%=require('./images/elements/baikal.jpg')%>" alt="Что-то с ссылкой на изображение" class="elements__image">
       <button type="button" class="elements__basket"></button>
       <div class="elements__group">
         <h2 class="elements__title"></h2>
-        <button type="button" class="elements__like" aria-label="Нравится"></button>
+        <div class="elements__group-like">
+          <button type="button" class="elements__like" aria-label="Нравится"></button>
+          <p class="elements__like-count"></p>
+        </div>
       </div>
     </li>
   </template>

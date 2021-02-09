@@ -11,7 +11,8 @@ import {
   elementContainer,
   profileEditButton,
   profileButtonAdd } from '../utils/constans'
-
+import {Popup} from "../components/Popup";
+//3bdb0feb685407faf4499a2f
 // Работа с запросами
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-20',
@@ -36,6 +37,9 @@ const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.p
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
 const addFormValidation = new FormValidator(validationConfig, '.popup_add');
 
+const popupDelete = new Popup('.popup_delete')
+
+
 // Popup профиля
 const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
   evt.preventDefault();
@@ -50,11 +54,25 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
 // Popup для увеличения изображений
 const popupWithImage = new PopupWithImage('.popup_image');
 
+const removeCard = (_id, card) => {
+  return () => {
+    api.removeCard(_id)
+      .then((res) => {
+        if(res.status) card.deleteCard();
+        popupDelete.close();
+      })
+  }
+}
+
 // Создание новой карточки
 const createCard = (items) => {
   const card = new Card(items, '.elements__template', () => {
     popupWithImage.open(items);
     popupWithImage.setEventListeners();
+  }, ()=> {
+    popupDelete.setEventListeners();
+    document.querySelector('.popup__button-save_verification').addEventListener('click', removeCard(card.returnCardId(), card))
+    popupDelete.open();
   })
   return card.createCard();
 }
@@ -71,8 +89,6 @@ const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   api.addCard(popupAdd.returnData())
     .then((res) => {
       if (res.status){
-        console.log(res)
-        console.log(res.status)
         card.addItem(createCard(cardInfo));
       }
     })
@@ -118,6 +134,5 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 // Включение валидации форм
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
-
 
 
