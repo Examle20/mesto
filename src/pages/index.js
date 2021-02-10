@@ -45,7 +45,7 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
   evt.preventDefault();
   userInfo.setUserInfo();
   api.editUserInfo(document.querySelector('.popup__form-input_field_name').value, document.querySelector('.popup__form-input_field_about').value)
-    .then(res => console.log(res))
+    .then()
   popupEdit.close();
   editFormValidation.disableButton(); // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
   //Cannot GET /pages/index.js
@@ -111,6 +111,7 @@ const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   // Cannot GET /pages/index.js
 });
 
+const popupAvatar = new PopupWithForm('.popup_avatar', () => {})
 
 // Popup редактирования
 const openPopupEdit = () => {
@@ -149,4 +150,5 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
 
+document.querySelector('.profile__photo-group').addEventListener('click', () => popupAvatar.open())
 
