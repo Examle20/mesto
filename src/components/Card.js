@@ -1,5 +1,5 @@
 export class Card {
-  constructor({name, link, likes, owner, _id}, cardSelector, handleCardClick, handleBasketClick){
+  constructor({name, link, likes, owner, _id}, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
     //const {name, link} = data;
     this._placeTitle = name;
     this._placeUrl = link;
@@ -9,6 +9,9 @@ export class Card {
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleBasketClick = handleBasketClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleRemoveLike = handleRemoveLike;
+    this._putLike = this._putLike.bind(this);
   }
 
   // Забрать разметку шаблона
@@ -31,9 +34,19 @@ export class Card {
     this._elementsItem = null;
   }
 
+  showLikesCounter(counter) {
+    this._elementsItem.querySelector('.elements__like-count').textContent = counter;
+  }
+
   // Поставить лайк
   _putLike(evt) {
-    evt.target.classList.toggle('elements_like_active');
+    if(!evt.target.classList.contains('elements_like_active')) {
+      this._handleLikeClick();
+      evt.target.classList.add('elements_like_active');
+    } else {
+      this._handleRemoveLike();
+      evt.target.classList.remove('elements_like_active');
+    }
   }
 
   // Возвращение данных для создания popupWithImage во время добавления новой карточки
@@ -51,6 +64,7 @@ export class Card {
 
   // Создание карточки
   createCard() {
+    console.log(this.likes)
     this._elementsItem = this._getTemplate();
     if(this.owner_id !== '3bdb0feb685407faf4499a2f')
       this._elementsItem.querySelector('.elements__basket').remove();
@@ -59,6 +73,9 @@ export class Card {
     this._image.setAttribute('src', this._placeUrl);
     this._image.setAttribute('alt', 'Не удалось открыть изображение');
     this._elementsItem.querySelector('.elements__like-count').textContent = this.likes.length;
+    this.likes.forEach((item) => {
+      if(item._id === '3bdb0feb685407faf4499a2f') this._elementsItem.querySelector('.elements__like').classList.add('elements_like_active')
+    })
     this._setEventListener();
     return this._elementsItem;
   }

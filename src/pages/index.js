@@ -73,6 +73,20 @@ const createCard = (items) => {
     popupDelete.setEventListeners();
     document.querySelector('.popup__button-save_verification').addEventListener('click', removeCard(card.returnCardId(), card))
     popupDelete.open();
+  }, ()=> {
+    api.putLike(card.returnCardId())
+      .then(res => res.json())
+      .then((res) => {
+        console.log(res.likes.length)
+        card.showLikesCounter(res.likes.length)
+      })
+  }, () => {
+    api.removeLike(card.returnCardId())
+      .then(res => res.json())
+      .then((res) => {
+        console.log(res.likes.length)
+        card.showLikesCounter(res.likes.length)
+      })
   })
   return card.createCard();
 }

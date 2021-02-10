@@ -1,0 +1,13 @@
+.profile__photo-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 26px;
+  height: 26px;
+  background-color:  #000000;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0;
+  border: none;
+  background-image: url('../../../images/profile/photo-button.svg');
+}

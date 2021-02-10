@@ -57,9 +57,26 @@ export class Api {
     })
   }
 
-  putLike() {
-
+  putLike(_id) {
+    return fetch(`${this.baseUrl}/cards/likes/${_id}`, {
+      method: 'PUT',
+      headers: {
+        authorization: this.headers.authorization,
+        'Content-Type': 'application/json',
+      }
+    })
   }
+
+  removeLike(_id) {
+    return fetch(`${this.baseUrl}/cards/likes/${_id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.headers.authorization,
+        'Content-Type': 'application/json',
+      }
+    })
+  }
+
   removeCard(_id) {
     return fetch(`${this.baseUrl}/cards/${_id}`, {
       method: 'DELETE',
@@ -69,4 +86,19 @@ export class Api {
       },
     })
   }
+
+  changeAvatar(link) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.headers.authorization,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        link: link,
+      })
+    })
+  }
 }
+
+
