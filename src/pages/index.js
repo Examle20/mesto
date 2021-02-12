@@ -96,14 +96,12 @@ const createCard = ({name, link, likes, owner, _id}) => {
     api.putLike(card.returnCardId())
       .then(res => res.json())
       .then((res) => {
-        console.log(res.likes.length)
         card.showLikesCounter(res.likes.length)
       })
   }, () => {
     api.removeLike(card.returnCardId())
       .then(res => res.json())
       .then((res) => {
-        console.log(res.likes.length)
         card.showLikesCounter(res.likes.length)
       })
   })
