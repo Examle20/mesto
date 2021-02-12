@@ -1,10 +1,10 @@
 export class Card {
-  constructor({name, link, likes, owner_id, _id}, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
+  constructor({name, link, likes = [], owner = '' , _id =' ' }, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
     this._placeTitle = name;
     this._placeUrl = link;
     this.likes = likes;
     this._id = _id;
-    this._owner_id = owner_id;
+    this._owner_id = owner._id;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleBasketClick = handleBasketClick;
@@ -63,7 +63,6 @@ export class Card {
 
   // Создание карточки
   createCard() {
-
     this._elementsItem = this._getTemplate();
     if(this._owner_id !== '3bdb0feb685407faf4499a2f')
       this._elementsItem.querySelector('.elements__basket').remove();

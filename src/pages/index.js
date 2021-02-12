@@ -69,10 +69,19 @@ const removeCard = (_id, card) => {
   }
 }
 
+// Проверка карточка только что создана, или загружена с сервера
+const checkData = ({name, link, likes, owner, _id}) => {
+  if(owner && likes && _id) {
+    return  { name, link, likes, owner, _id }
+  } else {
+    return { name, link }
+  }
+}
+
 // Создание новой карточки
 const createCard = ({name, link, likes, owner, _id}) => {
-  const owner_id = owner._id;
-  const card = new Card({name, link, likes, owner_id, _id}, '.elements__template', () => {
+  const items = checkData({name, link, likes, owner, _id});
+  const card = new Card(items, '.elements__template', () => {
     popupWithImage.open({name, link});
     popupWithImage.setEventListeners();
   }, ()=> {
