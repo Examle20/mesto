@@ -87,7 +87,7 @@ export class Api {
     })
   }
 
-  changeAvatar(link) {
+  changeAvatar({avatar}) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
@@ -95,7 +95,7 @@ export class Api {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        link: link,
+        avatar: avatar,
       })
     })
   }

@@ -64,6 +64,7 @@ export class Card {
 
   // Создание карточки
   createCard() {
+
     this._elementsItem = this._getTemplate();
     if(this.owner_id !== '3bdb0feb685407faf4499a2f')
       this._elementsItem.querySelector('.elements__basket').remove();

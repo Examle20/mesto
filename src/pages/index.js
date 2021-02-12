@@ -36,7 +36,7 @@ const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.p
 // Экземпляры класса для валидации форм
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
 const addFormValidation = new FormValidator(validationConfig, '.popup_add');
-
+//const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
 const popupDelete = new Popup('.popup_delete')
 
 
@@ -111,8 +111,21 @@ const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   // Cannot GET /pages/index.js
 });
 
-const popupAvatar = new PopupWithForm('.popup_avatar', () => {})
+const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
+  evt.preventDefault();
+  console.log(popupAvatar.returnData())
+  api.changeAvatar(popupAvatar.returnData())
+    .then(res => res.json())
+    .then((res) => {
+      document.querySelector('.profile__photo').setAttribute('src', res.avatar)
+      popupAvatar.close();
+    })
+})
 
+const openAvatar  = () => {
+  popupAvatar.open()
+  popupAvatar.setEventListeners();
+}
 // Popup редактирования
 const openPopupEdit = () => {
   editFormValidation.enableButton();
@@ -133,6 +146,7 @@ const openPopupAdd = () => {
 // Отрисовка начальных изображений
 api.getInitialCards()
   .then((res) => {
+    console.log(res)
     const cardList = new Section({items: res,
       renderer: (item) => {
         cardList.addItem(createCard(item));
@@ -149,6 +163,6 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 // Включение валидации форм
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
-
-document.querySelector('.profile__photo-group').addEventListener('click', () => popupAvatar.open())
+//avatarFormValidation.enableValidation();
+document.querySelector('.profile__photo-group').addEventListener('click',openAvatar );
 
