@@ -13,7 +13,9 @@ import {
   profileButtonAdd,
   userName,
   userAbout,
-  userAvatar } from '../utils/constans'
+  userAvatar,
+  nameInput,
+  aboutInput } from '../utils/constans'
 import {Popup} from "../components/Popup";
 
 
@@ -49,12 +51,14 @@ const popupDelete = new Popup('.popup_delete')
 const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
   evt.preventDefault();
   userInfo.setUserInfo();
-  api.editUserInfo(document.querySelector('.popup__form-input_field_name').value, document.querySelector('.popup__form-input_field_about').value)
-    .then()
-  popupEdit.close();
-  editFormValidation.disableButton(); // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
-  //Cannot GET /pages/index.js
-});
+  api.editUserInfo(nameInput.value, aboutInput.value)
+    .then((res) => {
+      if(res.status) {
+        popupEdit.close();
+        editFormValidation.disableButton();
+      }
+    })
+  });
 
 // Popup для увеличения изображений
 const popupWithImage = new PopupWithImage('.popup_image');
