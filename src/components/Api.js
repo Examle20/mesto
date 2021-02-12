@@ -1,16 +1,18 @@
 export class Api {
 
-  constructor({ baseUrl, headers}) {
-    this.baseUrl = baseUrl;
-    this.headers = headers;
+  constructor( {baseUrl, headers}) {
+    const {authorization, contentType} = headers;
+    this._baseUrl = baseUrl;
+    this._authorization = authorization;
+    this._contentType = contentType;
   }
 
   getInitialCards() {
-    return fetch(`${this.baseUrl}/cards`,
+    return fetch(`${this._baseUrl}/cards`,
       {
         headers: {
-          authorization: this.headers.authorization,
-          'Content-Type': 'application/json',
+          authorization: this._authorization,
+          'Content-Type': this._contentType,
         }
       }
     )
@@ -18,11 +20,11 @@ export class Api {
   }
 
   getUser() {
-    return fetch(`${this.baseUrl}/users/me`,
+    return fetch(`${this._baseUrl}/users/me`,
       {
         headers:{
-          authorization: this.headers.authorization,
-          'Content-Type': 'application/json',
+          authorization: this._authorization,
+          'Content-Type': this._contentType,
         }
       }
     )
@@ -30,11 +32,11 @@ export class Api {
   }
 
   editUserInfo(name, about) {
-    return fetch(`${this.baseUrl}/users/me`,{
+    return fetch(`${this._baseUrl}/users/me`,{
       method: 'PATCH',
       headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': 'application/json',
+        authorization: this._authorization,
+        'Content-Type': this._contentType,
       },
       body: JSON.stringify({
         name: name,
@@ -44,11 +46,11 @@ export class Api {
   }
 
   addCard({name, link}) {
-    return fetch(`${this.baseUrl}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': 'application/json',
+        authorization: this._authorization,
+        'Content-Type': this._contentType,
       },
       body: JSON.stringify({
         name: name,
@@ -58,41 +60,41 @@ export class Api {
   }
 
   putLike(_id) {
-    return fetch(`${this.baseUrl}/cards/likes/${_id}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${_id}`, {
       method: 'PUT',
       headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': 'application/json',
+        authorization: this._authorization,
+        'Content-Type': this._contentType,
       }
     })
   }
 
   removeLike(_id) {
-    return fetch(`${this.baseUrl}/cards/likes/${_id}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${_id}`, {
       method: 'DELETE',
       headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': 'application/json',
+        authorization: this._authorization,
+        'Content-Type': this._contentType,
       }
     })
   }
 
   removeCard(_id) {
-    return fetch(`${this.baseUrl}/cards/${_id}`, {
+    return fetch(`${this._baseUrl}/cards/${_id}`, {
       method: 'DELETE',
       headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': 'application/json',
+        authorization: this._authorization,
+        'Content-Type': this._contentType,
       },
     })
   }
 
   changeAvatar({avatar}) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this.headers.authorization,
-        'Content-Type': 'application/json',
+        authorization: this._authorization,
+        'Content-Type': this._contentType,
       },
       body: JSON.stringify({
         avatar: avatar,
