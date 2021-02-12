@@ -70,9 +70,10 @@ const removeCard = (_id, card) => {
 }
 
 // Создание новой карточки
-const createCard = (items) => {
-  const card = new Card(items, '.elements__template', () => {
-    popupWithImage.open(items);
+const createCard = ({name, link, likes, owner, _id}) => {
+  const owner_id = owner._id;
+  const card = new Card({name, link, likes, owner_id, _id}, '.elements__template', () => {
+    popupWithImage.open({name, link});
     popupWithImage.setEventListeners();
   }, ()=> {
     popupDelete.setEventListeners();
@@ -148,9 +149,10 @@ const openPopupAdd = () => {
   popupAdd.setEventListeners();// По заданию метод публичный, поэтому здесь и вызываю
 }
 
-// Отрисовка начальных изображений
+// Загрузка и отрисовка крточек с сервера
 api.getInitialCards()
   .then((res) => {
+    console.log(res)
     const cardList = new Section({items: res,
       renderer: (item) => {
         cardList.addItem(createCard(item));

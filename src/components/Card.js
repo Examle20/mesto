@@ -1,11 +1,10 @@
 export class Card {
-  constructor({name, link, likes, owner, _id}, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
-    //const {name, link} = data;
+  constructor({name, link, likes, owner_id, _id}, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
     this._placeTitle = name;
     this._placeUrl = link;
     this.likes = likes;
     this._id = _id;
-    this.owner_id = owner._id;
+    this._owner_id = owner_id;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleBasketClick = handleBasketClick;
@@ -56,7 +55,7 @@ export class Card {
 
   // Слушатели кнопок на карточке
   _setEventListener() {
-    if(this.owner_id === '3bdb0feb685407faf4499a2f')
+    if(this._owner_id === '3bdb0feb685407faf4499a2f')
       this._elementsItem.querySelector('.elements__basket').addEventListener('click', this._handleBasketClick);
     this._elementsItem.querySelector('.elements__like').addEventListener('click', this._putLike);
     this._image.addEventListener('click', this._handleCardClick);
@@ -66,7 +65,7 @@ export class Card {
   createCard() {
 
     this._elementsItem = this._getTemplate();
-    if(this.owner_id !== '3bdb0feb685407faf4499a2f')
+    if(this._owner_id !== '3bdb0feb685407faf4499a2f')
       this._elementsItem.querySelector('.elements__basket').remove();
     this._image = this._elementsItem.querySelector('.elements__image');
     this._elementsItem.querySelector('.elements__title').textContent = this._placeTitle;
