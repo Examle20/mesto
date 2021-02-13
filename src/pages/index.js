@@ -43,18 +43,38 @@ const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.p
 // Экземпляры класса для валидации форм
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
 const addFormValidation = new FormValidator(validationConfig, '.popup_add');
-//const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
+const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
 const popupDelete = new Popup('.popup_delete')
 
+// Изменение текста кнопки при сохранении
+const changeStateButton = (popupSelector) => {
+  const buttonElement = document.querySelector(popupSelector)
+    .querySelector('.popup__button-save');
+  if (popupSelector === '.popup_edit' || popupSelector === '.popup_avatar') {
+    if(buttonElement.textContent === 'Сохранить') {
+      buttonElement.textContent = 'Сохранение...';
+    }else {
+      buttonElement.textContent = 'Сохранить' ;
+    }
+  } else {
+      if(buttonElement.textContent === 'Создать'){
+        buttonElement.textContent = 'Создание...';
+    } else {
+      buttonElement.textContent = 'Создать';
+    }
+  }
+}
 
 // Popup профиля
 const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
   evt.preventDefault();
-  userInfo.setUserInfo();
+  changeStateButton('.popup_edit');
   api.editUserInfo(nameInput.value, aboutInput.value)
     .then((res) => {
       if(res.status) {
+        userInfo.setUserInfo();
         popupEdit.close();
+        changeStateButton('.popup_edit');
         editFormValidation.disableButton();
       }
     })
@@ -116,15 +136,18 @@ const card = new Section({items: '',
 // Popup добавления новых карточек
 const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   evt.preventDefault();
+  changeStateButton('.popup_add');
   const cardInfo = popupAdd.returnData();
   api.addCard(popupAdd.returnData())
     .then((res) => {
       if (res.status){
         card.addItem(createCard(cardInfo));
       }
+      popupAdd.close();
+      changeStateButton('.popup_add');
+      addFormValidation.disableButton();
     })
-  popupAdd.close();
-  addFormValidation.disableButton(); // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
+   // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
   // Cannot GET /pages/index.js
 });
 
@@ -180,6 +203,6 @@ profileButtonAdd.addEventListener('click', openPopupAdd);
 // Включение валидации форм
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
-//avatarFormValidation.enableValidation();
+avatarFormValidation.enableValidation();
 document.querySelector('.profile__photo-group').addEventListener('click',openAvatar );
 
