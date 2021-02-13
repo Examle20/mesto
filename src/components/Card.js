@@ -47,11 +47,6 @@ export class Card {
     }
   }
 
-  // Возвращение данных для создания popupWithImage во время добавления новой карточки
-  returnData()  {
-    return  {name: this._placeTitle, link: this._placeUrl};
-  }
-
   // Слушатели кнопок на карточке
   _setEventListener() {
     if(this._checkOwnerId())
