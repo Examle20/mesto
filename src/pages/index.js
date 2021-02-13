@@ -96,7 +96,6 @@ const removeCard = (card) => {
   return () => {
     api.removeCard(card.returnCardId())
       .then((res) => {
-        console.log(res.json())
         if(res.status) card.deleteCard();
         popupDelete.close();
       })
@@ -105,15 +104,6 @@ const removeCard = (card) => {
       })
   }
 }
-
-// Проверка карточка только что создана, или загружена с сервера
-//const checkData = ({name, link, likes, owner, _id}) => {
-  //if(owner && likes && _id) {
-    //return  { name, link, likes, owner, _id }
-  //} //else {
-    //return { name, link }
-  //}
-//}//
 
 // Создание новой карточки
 const createCard = ({name, link, likes, owner, _id}) => {
@@ -177,7 +167,6 @@ const popupAdd = new PopupWithForm('.popup_add', (evt) => {
 
 const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
   evt.preventDefault();
-  console.log(popupAvatar.returnData())
   api.changeAvatar(popupAvatar.returnData())
     .then(res => {
       if (res.ok) return res.json();
@@ -192,7 +181,9 @@ const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
 })
 
 const openAvatar  = () => {
-  popupAvatar.open()
+  popupAvatar.open();
+  avatarFormValidation.disableButton();
+  avatarFormValidation.resetValidation();
   popupAvatar.setEventListeners();
 }
 // Popup редактирования
@@ -215,7 +206,6 @@ const openPopupAdd = () => {
 // Загрузка и отрисовка крточек с сервера
 api.getInitialCards()
   .then((res) => {
-    console.log(res)
     const cardList = new Section({
       items: res,
       renderer: (item) => {

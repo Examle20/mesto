@@ -69,7 +69,6 @@ export class Card {
 
   // Создание карточки
   createCard() {
-    //console.log(this._id, this._placeTitle, this._ownerId )
     this._elementsItem = this._getTemplate();
     if(!this._checkOwnerId())
       this._elementsItem.querySelector('.elements__basket').remove();
