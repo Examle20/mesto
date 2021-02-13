@@ -15,7 +15,10 @@ import {
   userAbout,
   userAvatar,
   nameInput,
-  aboutInput } from '../utils/constans'
+  aboutInput,
+  profilePhoto,
+  profilePhotoGroup,
+  buttonPopupDelete } from '../utils/constans'
 import {Popup} from "../components/Popup";
 
 
@@ -34,6 +37,9 @@ api.getUser()
     userName.textContent = res.name;
     userAbout.textContent = res.about;
     userAvatar.setAttribute('src', res.avatar)
+  })
+  .catch((err) => {
+    console.log(err);
   })
 
 
@@ -78,51 +84,68 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
         editFormValidation.disableButton();
       }
     })
+    .catch((err) => {
+      console.log(err);
+    })
   });
 
 // Popup для увеличения изображений
 const popupWithImage = new PopupWithImage('.popup_image');
 
-const removeCard = (_id, card) => {
+const removeCard = (card) => {
   return () => {
-    api.removeCard(_id)
+    api.removeCard(card.returnCardId())
       .then((res) => {
+        console.log(res.json())
         if(res.status) card.deleteCard();
         popupDelete.close();
+      })
+      .catch((err) => {
+        console.log(err);
       })
   }
 }
 
 // Проверка карточка только что создана, или загружена с сервера
-const checkData = ({name, link, likes, owner, _id}) => {
-  if(owner && likes && _id) {
-    return  { name, link, likes, owner, _id }
-  } else {
-    return { name, link }
-  }
-}
+//const checkData = ({name, link, likes, owner, _id}) => {
+  //if(owner && likes && _id) {
+    //return  { name, link, likes, owner, _id }
+  //} //else {
+    //return { name, link }
+  //}
+//}//
 
 // Создание новой карточки
 const createCard = ({name, link, likes, owner, _id}) => {
-  const items = checkData({name, link, likes, owner, _id});
-  const card = new Card(items, '.elements__template', () => {
+  //const items = checkData({name, link, likes, owner, _id});
+  const card = new Card({name, link, likes, owner, _id}, '.elements__template', () => {
     popupWithImage.open({name, link});
     popupWithImage.setEventListeners();
   }, ()=> {
     popupDelete.setEventListeners();
-    document.querySelector('.popup__button-save_verification').addEventListener('click', removeCard(card.returnCardId(), card))
+    buttonPopupDelete.addEventListener('click', removeCard(card), {once: true})
     popupDelete.open();
   }, ()=> {
     api.putLike(card.returnCardId())
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json();
+      })
       .then((res) => {
         card.showLikesCounter(res.likes.length)
       })
+      .catch((err) => {
+        console.log(err);
+      })
   }, () => {
     api.removeLike(card.returnCardId())
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json();
+      })
       .then((res) => {
         card.showLikesCounter(res.likes.length)
+      })
+      .catch((err) => {
+        console.log(err);
       })
   })
   return card.createCard();
@@ -137,28 +160,34 @@ const card = new Section({items: '',
 const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   evt.preventDefault();
   changeStateButton('.popup_add');
-  const cardInfo = popupAdd.returnData();
   api.addCard(popupAdd.returnData())
+    .then(res => {if(res.ok) return res.json()})
     .then((res) => {
-      if (res.status){
-        card.addItem(createCard(cardInfo));
-      }
+      console.log(res.likes);
+      card.addItem(createCard({name: res.name, link: res.link, likes: res.likes,
+        owner: res.owner, _id: res._id} ));
       popupAdd.close();
       changeStateButton('.popup_add');
       addFormValidation.disableButton();
     })
-   // Добавил, так как при двойном клике на активную кнопку происходит переход на новую страницу с надписью
-  // Cannot GET /pages/index.js
+    .catch((err) => {
+      console.log(err);
+    })
 });
 
 const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
   evt.preventDefault();
   console.log(popupAvatar.returnData())
   api.changeAvatar(popupAvatar.returnData())
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) return res.json();
+    })
     .then((res) => {
-      document.querySelector('.profile__photo').setAttribute('src', res.avatar)
+      profilePhoto.setAttribute('src', res.avatar)
       popupAvatar.close();
+    })
+    .catch((err) => {
+      console.log(err);
     })
 })
 
@@ -187,22 +216,26 @@ const openPopupAdd = () => {
 api.getInitialCards()
   .then((res) => {
     console.log(res)
-    const cardList = new Section({items: res,
+    const cardList = new Section({
+      items: res,
       renderer: (item) => {
         cardList.addItem(createCard(item));
       }
     }, elementContainer);
     cardList.renderItems();
   })
-
+  .catch((err) => {
+    console.log(err);
+  })
 
 // Слушатели кнопок попав добавления и редактирования
 profileEditButton.addEventListener('click', openPopupEdit);
 profileButtonAdd.addEventListener('click', openPopupAdd);
+profilePhotoGroup.addEventListener('click',openAvatar );
 
 // Включение валидации форм
 editFormValidation.enableValidation();
 addFormValidation.enableValidation();
 avatarFormValidation.enableValidation();
-document.querySelector('.profile__photo-group').addEventListener('click',openAvatar );
+
 

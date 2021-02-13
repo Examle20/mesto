@@ -1,10 +1,10 @@
 export class Card {
-  constructor({name, link, likes = [], owner = ''   , _id ='3bdb0feb685407faf4499a2f' }, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
+  constructor({name, link, likes, owner, _id }, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
     this._placeTitle = name;
     this._placeUrl = link;
-    this.likes = likes;
+    this._likes = likes;
     this._id = _id;
-    this._owner_id = owner._id || '3bdb0feb685407faf4499a2f';
+    this._ownerId = owner._id || '3bdb0feb685407faf4499a2f';
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleBasketClick = handleBasketClick;
@@ -28,7 +28,6 @@ export class Card {
 
   // Удалить карточку
   deleteCard() {
-    console.log('hi')
     this._elementsItem.remove();
     this._elementsItem = null;
   }
@@ -63,14 +62,14 @@ export class Card {
 
   // Проверка id
   _checkOwnerId() {
-    if (this._owner_id === '3bdb0feb685407faf4499a2f') {
+    if (this._ownerId === '3bdb0feb685407faf4499a2f') {
       return true;
     }
   }
 
   // Создание карточки
   createCard() {
-    console.log(this._checkOwnerId())
+    //console.log(this._id, this._placeTitle, this._ownerId )
     this._elementsItem = this._getTemplate();
     if(!this._checkOwnerId())
       this._elementsItem.querySelector('.elements__basket').remove();
@@ -78,8 +77,8 @@ export class Card {
     this._elementsItem.querySelector('.elements__title').textContent = this._placeTitle;
     this._image.setAttribute('src', this._placeUrl);
     this._image.setAttribute('alt', 'Не удалось открыть изображение');
-    this._elementsItem.querySelector('.elements__like-count').textContent = this.likes.length;
-    this.likes.forEach((item) => {
+    this._elementsItem.querySelector('.elements__like-count').textContent = this._likes.length;
+    this._likes.forEach((item) => {
       if(item._id === '3bdb0feb685407faf4499a2f') this._elementsItem.querySelector('.elements__like').classList.add('elements_like_active')
     })
     this._setEventListener();
