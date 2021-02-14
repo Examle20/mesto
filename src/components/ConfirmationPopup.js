@@ -16,7 +16,7 @@ export class ConfirmationPopup extends Popup{
   }
 
   // Решение придумал сам, с наставником не консультировался, так как долго ждать ответа
-  // Это я к тому, что если решение плохое, то я виноват, а не плохо наставник проконсультировал
+  // Это я к тому, что если решение плохое, то моя ошибка, а не плохо наставник проконсультировал
   setEventListeners(handleButtonConfirmation) {
     this._handleButtonConfirmation = handleButtonConfirmation;
     super.setEventListeners();

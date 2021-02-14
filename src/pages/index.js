@@ -7,21 +7,15 @@ import { Section } from '../components/Section';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 import { Api } from "../components/Api";
-import {ConfirmationPopup} from "../components/confirmationPopup";
+import {ConfirmationPopup} from "../components/ConfirmationPopup";
 import {
   elementContainer,
   profileEditButton,
   profileButtonAdd,
-  userName,
-  userAbout,
-  userAvatar,
   nameInput,
   aboutInput,
   profilePhoto,
   profilePhotoGroup } from '../utils/constans'
-import {Popup} from "../components/Popup";
-
-
 
 // Создание класса для работы с запросами
 const api = new Api({
@@ -38,22 +32,28 @@ const userInfo = new UserInfo({nameSelector:'.profile__title',
   avatarSelector: '.profile__photo'
 })
 
-// Получение и установка данных пользователя
-api.getUser()
-  .then((res) => {
-    userInfo.setUserInfo({name: res.name, about: res.about, avatar: res.avatar})
-    userInfo.getUserId(res._id)
-  })
-  .catch((err) => {
-    console.log(err);
-  })
-
+// Класс отрисовки карточек
+const cardList = new Section(
+  (item) => {
+      cardList.addItem(createCard(item))
+  }
+  , elementContainer);
 
 // Экземпляры класса для валидации форм
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
 const addFormValidation = new FormValidator(validationConfig, '.popup_add');
 const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
 
+// Загрузка карточек
+api.getInitialCards()
+  .then(res => cardList.renderItems(res))
+
+// Получение и установка данных пользователя
+api.getUser()
+  .then((res) => {
+    userInfo.setUserInfo(res)
+    userInfo.getUserId(res._id)
+  })
 
 // Изменение текста кнопки при сохранении
 const changeStateButton = (popupSelector) => {
@@ -80,21 +80,15 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
   changeStateButton('.popup_edit');
   api.editUserInfo(nameInput.value, aboutInput.value)
     .then((res) => {
-      if(res.status) {
-        userInfo.setUserInfo();
-        popupEdit.close();
-        changeStateButton('.popup_edit');
-        editFormValidation.disableButton();
-      }
-    })
-    .catch((err) => {
-      console.log(err);
+      userInfo.setUserInfo(res);
+      popupEdit.close();
+      changeStateButton('.popup_edit');
+      editFormValidation.disableButton();
     })
   });
 
 // Popup для увеличения изображений
 const popupWithImage = new PopupWithImage('.popup_image');
-
 const popupDelete = new ConfirmationPopup('.popup_delete',)
 
 const removeCard = (card) => {
@@ -104,9 +98,6 @@ const removeCard = (card) => {
       .then((res) => {
         if(res.status) card.deleteCard();
         popupDelete.close();
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }
 }
@@ -122,66 +113,40 @@ const createCard = ({name, link, likes, owner, _id}) => {
     popupDelete.open();
   }, ()=> {
     api.putLike(card.returnCardId())
-      .then(res => {
-        if (res.ok) return res.json();
-      })
       .then((res) => {
         card.showLikesCounter(res.likes.length)
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }, () => {
     api.removeLike(card.returnCardId())
-      .then(res => {
-        if (res.ok) return res.json();
-      })
       .then((res) => {
         card.showLikesCounter(res.likes.length)
-      })
-      .catch((err) => {
-        console.log(err);
       })
   })
   return card.createCard();
 }
-
-const card = new Section({items: '',
-  renderer: () => {}
-}, elementContainer);
-
 
 // Popup добавления новых карточек
 const popupAdd = new PopupWithForm('.popup_add', (evt) => {
   evt.preventDefault();
   changeStateButton('.popup_add');
   api.addCard(popupAdd.returnData())
-    .then(res => {if(res.ok) return res.json()})
     .then((res) => {
-      console.log(res.likes);
-      card.addItem(createCard({name: res.name, link: res.link, likes: res.likes,
+      cardList.addItem(createCard({name: res.name, link: res.link, likes: res.likes,
         owner: res.owner, _id: res._id} ));
       popupAdd.close();
       changeStateButton('.popup_add');
       addFormValidation.disableButton();
     })
-    .catch((err) => {
-      console.log(err);
-    })
 });
 
 const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
   evt.preventDefault();
+  changeStateButton('.popup_avatar');
   api.changeAvatar(popupAvatar.returnData())
-    .then(res => {
-      if (res.ok) return res.json();
-    })
     .then((res) => {
-      profilePhoto.setAttribute('src', res.avatar)
+      userInfo.setUserInfo(res)
       popupAvatar.close();
-    })
-    .catch((err) => {
-      console.log(err);
+      changeStateButton('.popup_avatar');
     })
 })
 
@@ -207,22 +172,6 @@ const openPopupAdd = () => {
   popupAdd.open();
   popupAdd.setEventListeners();// По заданию метод публичный, поэтому здесь и вызываю
 }
-
-// Загрузка и отрисовка крточек с сервера
-api.getInitialCards()
-  .then((res) => {
-    console.log(res)
-    const cardList = new Section({
-      items: res,
-      renderer: (item) => {
-        cardList.addItem(createCard(item));
-      }
-    }, elementContainer);
-    cardList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  })
 
 // Слушатели кнопок попав добавления и редактирования
 profileEditButton.addEventListener('click', openPopupEdit);

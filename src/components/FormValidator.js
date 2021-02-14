@@ -5,7 +5,7 @@ export class FormValidator {
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
-    this._form = document.querySelector(popupSelector).querySelector('.popup__form');
+    this._form = document.querySelector(popupSelector).querySelector(config.formSelector);
     this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
     this._buttonElement = this._form.querySelector(this._submitButtonSelector);
   }
@@ -71,12 +71,12 @@ export class FormValidator {
   }
 
   enableButton() {
-    this._buttonElement.classList.remove('popup__button-save_inactive');
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
     this._buttonElement.disabled = false;
   }
 
   disableButton() {
-    this._buttonElement.classList.add('popup__button-save_inactive');
+    this._buttonElement.classList.add(this._inactiveButtonClass);
     this._buttonElement.disabled = true;
   }
 

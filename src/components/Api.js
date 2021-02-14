@@ -16,7 +16,12 @@ export class Api {
         }
       }
     )
-      .then(res => res.json())
+      .then(res => {
+        if (res.status) return res.json();
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   getUser() {
@@ -28,7 +33,12 @@ export class Api {
         }
       }
     )
-      .then(res => res.json())
+      .then(res => {
+        if (res.status) return res.json();
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   editUserInfo(name, about) {
@@ -43,6 +53,12 @@ export class Api {
         about: about
       })
     })
+      .then(res => {
+        if (res.status) return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   addCard({name, link}) {
@@ -57,6 +73,12 @@ export class Api {
         link: link,
       })
     })
+      .then(res => {
+        if (res.status) return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   putLike(_id) {
@@ -67,6 +89,12 @@ export class Api {
         'Content-Type': this._contentType,
       }
     })
+      .then(res => {
+        if (res.status) return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   removeLike(_id) {
@@ -77,6 +105,12 @@ export class Api {
         'Content-Type': this._contentType,
       }
     })
+      .then(res => {
+        if (res.status) return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   removeCard(_id) {
@@ -87,6 +121,12 @@ export class Api {
         'Content-Type': this._contentType,
       },
     })
+      .then(res => {
+        if (res.status) return res;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   changeAvatar({avatar}) {
@@ -100,6 +140,12 @@ export class Api {
         avatar: avatar,
       })
     })
+      .then(res => {
+        if (res.ok) return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 }
 
