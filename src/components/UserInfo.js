@@ -1,7 +1,8 @@
 export class UserInfo {
-  constructor( { nameSelector, aboutSelector } ) {
+  constructor( { nameSelector, aboutSelector, avatarSelector } ) {
     this._userName = document.querySelector(nameSelector);
     this._userAbout = document.querySelector(aboutSelector);
+    this._userAvatar = document.querySelector(avatarSelector);
     this._inputName = document.querySelector('.popup__form-input_field_name');
     this._inputAbout = document.querySelector('.popup__form-input_field_about');
   }
@@ -18,8 +19,17 @@ export class UserInfo {
     this._inputAbout.value = about;
   }
 
-  setUserInfo() {
-    this._userName.textContent = this._inputName.value;
-    this._userAbout.textContent = this._inputAbout.value;
+  getUserId(_id) {
+    this._userId = _id;
+  }
+
+  returnUserId() {
+    return this._userId;
+  }
+
+  setUserInfo({name, about, avatar}) {
+    this._userName.textContent = name;
+    this._userAbout.textContent = about;
+    this._userAvatar.setAttribute('src', avatar)
   }
 }

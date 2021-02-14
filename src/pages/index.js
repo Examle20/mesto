@@ -18,8 +18,7 @@ import {
   nameInput,
   aboutInput,
   profilePhoto,
-  profilePhotoGroup,
-  buttonPopupDelete } from '../utils/constans'
+  profilePhotoGroup } from '../utils/constans'
 import {Popup} from "../components/Popup";
 
 
@@ -33,20 +32,22 @@ const api = new Api({
   }
 });
 
+// Экземпляр класса для работы с данными профиля
+const userInfo = new UserInfo({nameSelector:'.profile__title',
+  aboutSelector:'.profile__subtitle',
+  avatarSelector: '.profile__photo'
+})
+
 // Получение и установка данных пользователя
 api.getUser()
   .then((res) => {
-    userName.textContent = res.name;
-    userAbout.textContent = res.about;
-    userAvatar.setAttribute('src', res.avatar)
+    userInfo.setUserInfo({name: res.name, about: res.about, avatar: res.avatar})
+    userInfo.getUserId(res._id)
   })
   .catch((err) => {
     console.log(err);
   })
 
-
-// Экземпляр класса для работы с данными профиля
-const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.profile__subtitle'})
 
 // Экземпляры класса для валидации форм
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
@@ -113,7 +114,7 @@ const removeCard = (card) => {
 // Создание новой карточки
 const createCard = ({name, link, likes, owner, _id}) => {
   //const items = checkData({name, link, likes, owner, _id});
-  const card = new Card({name, link, likes, owner, _id}, '.elements__template', () => {
+  const card = new Card({name, link, likes, owner, _id, userId: userInfo.returnUserId()}, '.elements__template', () => {
     popupWithImage.open({name, link});
     popupWithImage.setEventListeners();
   }, ()=> {
@@ -210,6 +211,7 @@ const openPopupAdd = () => {
 // Загрузка и отрисовка крточек с сервера
 api.getInitialCards()
   .then((res) => {
+    console.log(res)
     const cardList = new Section({
       items: res,
       renderer: (item) => {

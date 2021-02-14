@@ -1,10 +1,11 @@
 export class Card {
-  constructor({name, link, likes, owner, _id }, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
+  constructor({name, link, likes, owner, _id, userId}, cardSelector, handleCardClick, handleBasketClick, handleLikeClick, handleRemoveLike){
     this._placeTitle = name;
     this._placeUrl = link;
     this._likes = likes;
     this._id = _id;
-    this._ownerId = owner._id || '3bdb0feb685407faf4499a2f';
+    this._userId = userId;
+    this._ownerId = owner._id || this._userId;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleBasketClick = handleBasketClick;
@@ -57,13 +58,14 @@ export class Card {
 
   // Проверка id
   _checkOwnerId() {
-    if (this._ownerId === '3bdb0feb685407faf4499a2f') {
+    if (this._ownerId === this._userId) {
       return true;
     }
   }
 
   // Создание карточки
   createCard() {
+    console.log(this._ownerId)
     this._elementsItem = this._getTemplate();
     if(!this._checkOwnerId())
       this._elementsItem.querySelector('.elements__basket').remove();
@@ -73,7 +75,7 @@ export class Card {
     this._image.setAttribute('alt', 'Не удалось открыть изображение');
     this._elementsItem.querySelector('.elements__like-count').textContent = this._likes.length;
     this._likes.forEach((item) => {
-      if(item._id === '3bdb0feb685407faf4499a2f') this._elementsItem.querySelector('.elements__like').classList.add('elements_like_active')
+      if(item._id === this._userId) this._elementsItem.querySelector('.elements__like').classList.add('elements_like_active')
     })
     this._setEventListener();
     return this._elementsItem;
