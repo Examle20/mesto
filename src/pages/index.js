@@ -7,6 +7,7 @@ import { Section } from '../components/Section';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 import { Api } from "../components/Api";
+import {ConfirmationPopup} from "../components/confirmationPopup";
 import {
   elementContainer,
   profileEditButton,
@@ -20,6 +21,7 @@ import {
   profilePhotoGroup,
   buttonPopupDelete } from '../utils/constans'
 import {Popup} from "../components/Popup";
+
 
 
 // Создание класса для работы с запросами
@@ -50,7 +52,7 @@ const userInfo = new UserInfo({nameSelector:'.profile__title', aboutSelector:'.p
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
 const addFormValidation = new FormValidator(validationConfig, '.popup_add');
 const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
-const popupDelete = new Popup('.popup_delete')
+
 
 // Изменение текста кнопки при сохранении
 const changeStateButton = (popupSelector) => {
@@ -92,8 +94,11 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
 // Popup для увеличения изображений
 const popupWithImage = new PopupWithImage('.popup_image');
 
+const popupDelete = new ConfirmationPopup('.popup_delete',)
+
 const removeCard = (card) => {
   return () => {
+    console.log(card)
     api.removeCard(card.returnCardId())
       .then((res) => {
         if(res.status) card.deleteCard();
@@ -112,8 +117,7 @@ const createCard = ({name, link, likes, owner, _id}) => {
     popupWithImage.open({name, link});
     popupWithImage.setEventListeners();
   }, ()=> {
-    popupDelete.setEventListeners();
-    buttonPopupDelete.addEventListener('click', removeCard(card), {once: true})
+    popupDelete.setEventListeners(removeCard(card));
     popupDelete.open();
   }, ()=> {
     api.putLike(card.returnCardId())

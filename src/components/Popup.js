@@ -23,7 +23,7 @@ export class Popup {
   }
 
   // Открыть popup
-  open(open) {
+  open() {
     this._popup.classList.add('popup_visible');
   }
 
