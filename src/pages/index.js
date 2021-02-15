@@ -41,7 +41,10 @@ const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
 api.getUser()
   .then((res) => {
     userInfo.setUserInfo(res)
-    userInfo.getUserId(res._id)
+    userInfo.setUserId(res._id)
+  })
+  .catch((err) => {
+    console.log(err);
   })
 
 // Класс отрисовки карточек
@@ -53,6 +56,9 @@ const cardList = new Section(
 // Загрузка карточек
 api.getInitialCards()
   .then(res => cardList.renderItems(res))
+  .catch((err) => {
+    console.log(err);
+  })
 
 // Изменение текста кнопки при сохранении
 const changeStateButton = (popupSelector) => {
@@ -84,6 +90,9 @@ const popupEdit = new PopupWithForm('.popup_edit', (evt) => {
       changeStateButton('.popup_edit');
       editFormValidation.disableButton();
     })
+    .catch((err) => {
+      console.log(err);
+    })
   });
 
 // Popup для увеличения изображений
@@ -97,6 +106,9 @@ const removeCard = (card) => {
       .then((res) => {
         if(res.status) card.deleteCard();
         popupDelete.close();
+      })
+      .catch((err) => {
+        console.log(err);
       })
   }
 }
@@ -115,10 +127,16 @@ const createCard = ({name, link, likes, owner, _id}) => {
       .then((res) => {
         card.showLikesCounter(res.likes.length)
       })
+      .catch((err) => {
+        console.log(err);
+      })
   }, () => {
     api.removeLike(card.returnCardId())
       .then((res) => {
         card.showLikesCounter(res.likes.length)
+      })
+      .catch((err) => {
+        console.log(err);
       })
   })
   return card.createCard();
@@ -136,6 +154,9 @@ const popupAdd = new PopupWithForm('.popup_add', (evt) => {
       changeStateButton('.popup_add');
       addFormValidation.disableButton();
     })
+    .catch((err) => {
+      console.log(err);
+    })
 });
 
 const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
@@ -146,6 +167,9 @@ const popupAvatar = new PopupWithForm('.popup_avatar', (evt) => {
       userInfo.setUserInfo(res)
       popupAvatar.close();
       changeStateButton('.popup_avatar');
+    })
+    .catch((err) => {
+      console.log(err);
     })
 })
 

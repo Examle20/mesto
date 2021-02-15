@@ -19,9 +19,6 @@ export class Api {
       .then(res => {
         if (res.status) return res.json();
       })
-      .catch(err => {
-        console.log(err);
-      })
   }
 
   getUser() {
@@ -35,9 +32,6 @@ export class Api {
     )
       .then(res => {
         if (res.status) return res.json();
-      })
-      .catch(err => {
-        console.log(err);
       })
   }
 
@@ -56,9 +50,6 @@ export class Api {
       .then(res => {
         if (res.status) return res.json();
       })
-      .catch((err) => {
-        console.log(err);
-      })
   }
 
   addCard({name, link}) {
@@ -76,9 +67,6 @@ export class Api {
       .then(res => {
         if (res.status) return res.json();
       })
-      .catch((err) => {
-        console.log(err);
-      })
   }
 
   putLike(_id) {
@@ -91,9 +79,6 @@ export class Api {
     })
       .then(res => {
         if (res.status) return res.json();
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }
 
@@ -108,9 +93,6 @@ export class Api {
       .then(res => {
         if (res.status) return res.json();
       })
-      .catch((err) => {
-        console.log(err);
-      })
   }
 
   removeCard(_id) {
@@ -123,9 +105,6 @@ export class Api {
     })
       .then(res => {
         if (res.status) return res;
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }
 
@@ -142,9 +121,6 @@ export class Api {
     })
       .then(res => {
         if (res.ok) return res.json();
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }
 }

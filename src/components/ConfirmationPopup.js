@@ -6,10 +6,6 @@ export class ConfirmationPopup extends Popup{
     this._buttonDelete = document.querySelector('.popup__button-save_verification');
   }
 
-  open() {
-    super.open();
-  }
-
   _deleteEventListeners() {
     super._deleteEventListeners();
     this._buttonDelete.removeEventListener('click', this._handleButtonConfirmation);

@@ -19,7 +19,7 @@ export class UserInfo {
     this._inputAbout.value = about;
   }
 
-  getUserId(_id) {
+  setUserId(_id) {
     this._userId = _id;
   }
 
