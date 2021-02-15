@@ -14,4 +14,4 @@ Css
 <br>
 JavaScript
 ## Ссылка на проект gh-pages
-https://examle20.github.io/mesto/index.html
+https://Examle20.github.io/mesto
