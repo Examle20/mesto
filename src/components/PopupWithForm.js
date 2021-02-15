@@ -31,7 +31,7 @@ export class PopupWithForm extends Popup {
   // Повесить слушатели
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener('submit', this._handleFormSubmit);
+    this._form.addEventListener('submit', this._handleFormSubmit, {once: true});
   }
 
 }

@@ -15,11 +15,9 @@ export class ConfirmationPopup extends Popup{
     this._buttonDelete.removeEventListener('click', this._handleButtonConfirmation);
   }
 
-  // Решение придумал сам, с наставником не консультировался, так как долго ждать ответа
-  // Это я к тому, что если решение плохое, то моя ошибка, а не плохо наставник проконсультировал
   setEventListeners(handleButtonConfirmation) {
     this._handleButtonConfirmation = handleButtonConfirmation;
     super.setEventListeners();
-    this._buttonDelete.addEventListener('click', this._handleButtonConfirmation);
+    this._buttonDelete.addEventListener('click', this._handleButtonConfirmation, {once: true});
   }
 }

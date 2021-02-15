@@ -14,7 +14,6 @@ import {
   profileButtonAdd,
   nameInput,
   aboutInput,
-  profilePhoto,
   profilePhotoGroup } from '../utils/constans'
 
 // Создание класса для работы с запросами
@@ -32,21 +31,11 @@ const userInfo = new UserInfo({nameSelector:'.profile__title',
   avatarSelector: '.profile__photo'
 })
 
-// Класс отрисовки карточек
-const cardList = new Section(
-  (item) => {
-      cardList.addItem(createCard(item))
-  }
-  , elementContainer);
-
 // Экземпляры класса для валидации форм
 const editFormValidation = new FormValidator(validationConfig, '.popup_edit');
 const addFormValidation = new FormValidator(validationConfig, '.popup_add');
 const avatarFormValidation = new FormValidator(validationConfig,'.popup_avatar')
 
-// Загрузка карточек
-api.getInitialCards()
-  .then(res => cardList.renderItems(res))
 
 // Получение и установка данных пользователя
 api.getUser()
@@ -54,6 +43,16 @@ api.getUser()
     userInfo.setUserInfo(res)
     userInfo.getUserId(res._id)
   })
+
+// Класс отрисовки карточек
+const cardList = new Section(
+  (item) => {
+    cardList.addItem(createCard(item))
+  }
+  , elementContainer);
+// Загрузка карточек
+api.getInitialCards()
+  .then(res => cardList.renderItems(res))
 
 // Изменение текста кнопки при сохранении
 const changeStateButton = (popupSelector) => {
